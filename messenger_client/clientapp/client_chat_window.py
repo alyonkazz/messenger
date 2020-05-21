@@ -10,6 +10,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidgetItem, QAction
 
 from clientapp import client_gui_chat_window as desing
 from client_config.utils import send_message, get_message
+from clientapp.client_profile import ClientProfile
 from clientapp.database_client import ClientDB
 from clientapp.decorators import func_to_log
 from client_logs.client_log_config import CLIENT_LOG as log
@@ -79,7 +80,7 @@ def remove_contact_request(sock, client_name, remove_account):
     log.debug(f'{client_name}: remove_contact_request send')
 
 
-class ClientApp(QMainWindow, desing.Ui_Dialog):
+class ClientApp(QMainWindow, desing.Ui_MainWindow):
     all_users = []
 
     def __init__(self, client_name, sock, database):
@@ -122,6 +123,12 @@ class ClientApp(QMainWindow, desing.Ui_Dialog):
         self.pushButton_bold.clicked.connect(self.actionBold)
         self.pushButton_italic.clicked.connect(self.actionItalic)
         self.pushButton_underlined.clicked.connect(self.actionUnderlined)
+
+        self.action_profile.triggered.connect(self.open_profile)
+
+    def open_profile(self):
+        self.ciient_profile = ClientProfile()
+        self.ciient_profile.show()
 
     def actionBold(self):
         myFont = QFont()

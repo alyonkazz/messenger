@@ -3,31 +3,28 @@ import sys
 
 from PIL import Image, ImageDraw
 from PIL.ImageQt import ImageQt
-from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QFileDialog, QAction
+from PyQt5.QtCore import QRect
+from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QFileDialog, QAction, QPushButton
 from PyQt5.QtGui import QPixmap
 
 
-class MainWindow(QMainWindow):
+class ChangeImage(QMainWindow):
 
     def __init__(self, parent=None):
-        super(MainWindow, self).__init__(parent)
+        super(ChangeImage, self).__init__(parent)
 
         self.menu()
 
     def menu(self):
-        menubar = self.menuBar()
-        fileMenu = menubar.addMenu('Файл')
-        self.editMenu = menubar.addMenu('Изменить изображение')
+        self.menubar = self.menuBar()
+        self.fileMenu = self.menubar.addMenu('Файл')
+        self.editMenu = self.menubar.addMenu('Изменить изображение')
         self.editMenu.setEnabled(False)
         self.resize(500, 500)
 
         openAction = QAction('Открыть изображение', self)
         openAction.triggered.connect(self.open_image)
-        fileMenu.addAction(openAction)
-
-        closeAction = QAction('Выход', self)
-        closeAction.triggered.connect(self.close)
-        fileMenu.addAction(closeAction)
+        self.fileMenu.addAction(openAction)
 
         convert_to_grey_action = QAction('Оттенки серого', self)
         convert_to_grey_action.triggered.connect(lambda: self.convert_image(self.to_grey))
@@ -54,10 +51,11 @@ class MainWindow(QMainWindow):
 
     def open_image(self):
         self.image_path = QFileDialog.getOpenFileName(self, 'Open file', os.path.abspath(__file__), "Images (*.png *.xpm *.jpg)")[0]
-        pixmap = QPixmap(self.image_path)
-        self.label.setPixmap(pixmap)
-        self.resize(pixmap.size())
-        self.adjustSize()
+        # pixmap = QPixmap(self.image_path)
+        # self.label.setPixmap(pixmap)
+        # self.resize(pixmap.size())
+        # self.adjustSize()
+        self.convert_image(lambda: self.convert_image(self.to_original))
 
         if self.image_path:
             self.editMenu.setEnabled(True)
@@ -71,8 +69,8 @@ class MainWindow(QMainWindow):
 
         convert_action()
 
-        img_tmp = ImageQt(image.convert('RGBA'))
-        pixmap = QPixmap.fromImage(img_tmp)
+        self.img_tmp = ImageQt(image.convert('RGBA'))
+        pixmap = QPixmap.fromImage(self.img_tmp)
 
         self.label.setPixmap(pixmap)
         self.resize(pixmap.size())
@@ -136,7 +134,7 @@ class MainWindow(QMainWindow):
 
 def main():
     app = QApplication(sys.argv)
-    win = MainWindow()
+    win = ChangeImage()
     win.show()
     return app.exec_()
 
