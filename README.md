@@ -44,5 +44,5 @@ python3 client.py
 
 
 
-
+______________________________________
 pyuic5 clientapp\client_login.ui -o clientapp\client_gui_login.py

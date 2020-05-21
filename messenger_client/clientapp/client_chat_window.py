@@ -5,7 +5,8 @@ import time
 from socket import AF_INET, SOCK_STREAM, socket
 
 from PyQt5 import QtWidgets, QtCore, QtGui
-from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidgetItem
+from PyQt5.QtGui import QIcon, QFont
+from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidgetItem, QAction
 
 from clientapp import client_gui_chat_window as desing
 from client_config.utils import send_message, get_message
@@ -92,7 +93,7 @@ class ClientApp(QMainWindow, desing.Ui_Dialog):
         self.database = database
 
         # отправка сообщения
-        self.pushButton.clicked.connect(self.click_send)
+        self.pushButton_send_msg.clicked.connect(self.click_send)
 
         self.setWindowTitle(self.client_name)
 
@@ -117,6 +118,25 @@ class ClientApp(QMainWindow, desing.Ui_Dialog):
         client_process.start()
 
         self.list_contacts.installEventFilter(self)
+
+        self.pushButton_bold.clicked.connect(self.actionBold)
+        self.pushButton_italic.clicked.connect(self.actionItalic)
+        self.pushButton_underlined.clicked.connect(self.actionUnderlined)
+
+    def actionBold(self):
+        myFont = QFont()
+        myFont.setBold(True)
+        self.text_new_msg.setFont(myFont)
+
+    def actionItalic(self):
+        myFont = QFont()
+        myFont.setItalic(True)
+        self.text_new_msg.setFont(myFont)
+
+    def actionUnderlined(self):
+        myFont = QFont()
+        myFont.setUnderline(True)
+        self.text_new_msg.setFont(myFont)
 
     def item_clicked_event(self):
         # история сообщений с выбранными пользователем
