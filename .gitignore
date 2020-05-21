@@ -6,3 +6,6 @@
 /test**
 /clientapp/**.db3
 /serverapp/**.db3
+/venv/
+/messenger_client/logs/client.log
+/messenger_server/logs/server.log
