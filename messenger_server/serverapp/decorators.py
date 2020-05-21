@@ -5,11 +5,7 @@ import socket
 # sys.path.append('../')
 
 
-# проверка - логи клиента или сервера
-if sys.argv[0].find('client.py') == -1:
-    LOGGER = logging.getLogger('server')
-else:
-    LOGGER = logging.getLogger('client')
+LOGGER = logging.getLogger('server')
 
 
 def func_to_log(func):
@@ -28,7 +24,7 @@ def login_required(func):
         # Если первый аргумент - экземпляр Server, a сокет в остальных аргументах
         # Импортить необходимо тут, иначе ошибка рекурсивного импорта.
         from server import Server
-        from config.settings import REGISTRATION, ACTION, PRESENCE
+        from server_config.settings import REGISTRATION, ACTION, PRESENCE
         if isinstance(args[0], Server):
             found = False
             for arg in args:

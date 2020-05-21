@@ -7,7 +7,7 @@
 
 import sys
 
-import logs.server_log_config as log
+import server_logs.server_log_config as log
 
 
 class GetPort:

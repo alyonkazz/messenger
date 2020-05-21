@@ -5,7 +5,7 @@ from sqlalchemy import create_engine, Column, Integer, String, DateTime, Text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-from config.settings import POOL_RECYCLE
+from client_config.settings import POOL_RECYCLE
 
 
 class ClientDB:
@@ -92,7 +92,6 @@ class ClientDB:
              history_row.date.strftime("%Y-%m-%d-%H.%M.%S")]
             for history_row in query.all()
         ]
-        # return query.all()
 
 
 if __name__ == '__main__':

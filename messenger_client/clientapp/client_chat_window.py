@@ -8,11 +8,11 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidgetItem
 
 from clientapp import client_gui_chat_window as desing
-from config.utils import send_message, get_message
+from client_config.utils import send_message, get_message
 from clientapp.database_client import ClientDB
 from clientapp.decorators import func_to_log
-from logs.client_log_config import CLIENT_LOG as log
-from config.settings import ACTION, TIME, ACCOUNT_NAME, MESSAGE, \
+from client_logs.client_log_config import CLIENT_LOG as log
+from client_config.settings import ACTION, TIME, ACCOUNT_NAME, MESSAGE, \
     MESSAGE_TEXT, SENDER, DESTINATION, RESPONSE, ADD_CONTACT, REMOVE_CONTACT, \
     SERVER, GET_ALL_USERS, ALL_USERS
 

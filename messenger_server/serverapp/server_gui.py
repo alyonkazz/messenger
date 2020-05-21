@@ -4,72 +4,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QGridLayout, QWidget, QTa
     QHBoxLayout
 from PyQt5.QtCore import QSize, Qt
 
-from config.settings import DEFAULT_HOST, DEFAULT_PORT, SERVER_DATABASE
-
-
-class StartServer(QDialog):
-    # NumGridRows = 3
-    # NumButtons = 4
-
-    def __init__(self):
-        super(StartServer, self).__init__()
-        self.create_form_group_box()
-
-        button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        # button_box.accepted.connect(self.accept)
-        button_box.accepted.connect(self.press_ok_event)
-        button_box.rejected.connect(self.reject)
-
-        main_layout = QVBoxLayout()
-        main_layout.addWidget(self.form_group_box)
-        main_layout.addWidget(button_box)
-        self.setLayout(main_layout)
-
-        self.setWindowTitle("Server settings")
-
-    def create_form_group_box(self):
-        self.form_group_box = QGroupBox("Параметры запуска сервера: ")
-        form = QFormLayout()
-
-        hbox = QHBoxLayout()
-
-        # Кнопка выбора пути.
-        self.db_path_select = QPushButton('Обзор...', self)
-
-        # Функция обработчик открытия окна выбора папки
-        def open_file_dialog():
-            path = QFileDialog.getExistingDirectory(self, "Выбрать папку", ".")
-            path = path.replace('/', '\\')
-            self.line_path_to_db.setText(path)
-
-        self.db_path_select.clicked.connect(open_file_dialog)
-
-        self.line_path_to_db = QLineEdit()
-        self.line_file_db = QLineEdit(text=SERVER_DATABASE)
-        self.line_host = QLineEdit(text=DEFAULT_HOST)
-        self.line_port = QLineEdit(text=str(DEFAULT_PORT))
-
-        hbox.addStretch(1)
-        hbox.addWidget(self.line_path_to_db)
-        hbox.addWidget(self.db_path_select)
-
-        form.addRow(QLabel("Путь до файла базы данных: "), hbox)
-        form.addRow(QLabel("Файл базы данных: "), self.line_file_db)
-        form.addRow(QLabel("Host:"), self.line_host)
-        form.addRow(QLabel("Port:"), self.line_port)
-        # layout.addRow(QLabel("Clients:"), QSpinBox(value=2))
-        self.form_group_box.setLayout(form)
-
-    def press_ok_event(self):
-        with open('../server.ini', 'w') as the_file:
-            the_file.write(
-                f'[SETTINGS]\n'
-                f'database_path = {self.line_path_to_db.text()}\n'
-                f'database_file = {self.line_file_db.text()}\n'
-                f'default_port = {self.line_port.text()}\n'
-                f'listen_address = {self.line_host.text()}\n'
-            )
-        self.close()
+from server_config.settings import DEFAULT_HOST, DEFAULT_PORT, SERVER_DATABASE
 
 
 # Наследуемся от QMainWindow

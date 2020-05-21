@@ -3,8 +3,8 @@ import sys
 import os
 import unittest
 
-from config.settings import ENCODING
-from config.utils import send_message, get_message
+from server_config.settings import ENCODING
+from server_config.utils import send_message, get_message
 
 sys.path.append(os.path.join(os.getcwd(), '..'))
 

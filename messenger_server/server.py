@@ -9,22 +9,22 @@ from socket import AF_INET, SOCK_STREAM, socket
 
 from PyQt5.QtWidgets import QApplication
 
-import logs.server_log_config as log
-from config.utils import send_message, get_message
+import server_logs.server_log_config as log
+from server_config.utils import send_message, get_message
 from serverapp.errors import ServerError
 from serverapp.database_server import ServerDB
 from serverapp.decorators import func_to_log, login_required
 from serverapp.descrptrs_server import GetPort
 from serverapp.metaclss_server import ServerVerifier
-from config.settings import MAX_CONNECTION, TIMEOUT, \
+from server_config.settings import MAX_CONNECTION, TIMEOUT, \
     MESSAGE, ACTION, PRESENCE, TIME, USER, MESSAGE_TEXT, ACCOUNT_NAME, RESPONSE, ERROR, SENDER, DESTINATION, EXIT, \
     GET_CONTACTS, ALL_USERS, ADD_CONTACT, REMOVE_CONTACT, SERVER, CONTACTS, GET_ALL_USERS, PASSWORD, REGISTRATION, \
-    ROOT_PATH
+    DEFAULT_HOST, DEFAULT_PORT
 from serverapp.server_gui import UsersStatistic
 
 
 @func_to_log
-def arg_parser(default_port, default_address):
+def arg_parser(default_address, default_port):
     """Парсер аргументов коммандной строки"""
     parser = argparse.ArgumentParser()
     parser.add_argument('--host', default=default_address, nargs='?')
@@ -265,21 +265,12 @@ class Server(threading.Thread, metaclass=ServerVerifier):
 
 
 def main():
-    # Загрузка файла конфигурации сервера
-    config = configparser.ConfigParser()
-
-    config.read(f"{ROOT_PATH}/{'server.ini'}")
-
     # Загрузка параметров командной строки, если нет параметров, то задаём
     # значения по умоланию.
-    listen_host, port = arg_parser(
-        config['SETTINGS']['Default_port'], config['SETTINGS']['Listen_Address'])
+    listen_host, port = arg_parser(DEFAULT_HOST, DEFAULT_PORT)
 
     # Инициализация базы данных
-    database = ServerDB(
-        os.path.join(
-            config['SETTINGS']['Database_path'],
-            config['SETTINGS']['Database_file']))
+    database = ServerDB()
 
     # listen_host, port = arg_parser()
     # database = ServerDB()

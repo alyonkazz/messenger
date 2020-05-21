@@ -22,7 +22,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 from serverapp.errors import ServerError
-from config.settings import POOL_RECYCLE
+from server_config.settings import POOL_RECYCLE, SERVER_DATABASE
 
 
 class ServerDB:
@@ -91,8 +91,8 @@ class ServerDB:
         def __repr__(self):
             return f'<User({self.username}, {self.sender}, {self.ip_address}, {self.accepted})>'
 
-    def __init__(self, path):
-        self.engine = create_engine(f'sqlite:///{path}', echo=False, pool_recycle=POOL_RECYCLE,
+    def __init__(self):
+        self.engine = create_engine(f'sqlite:///{SERVER_DATABASE}', echo=False, pool_recycle=POOL_RECYCLE,
                                     connect_args={'check_same_thread': False})
 
         # Создаём таблицы
