@@ -1,0 +1,8 @@
+/.idea/
+/logs/server.log
+/logs/server.log**
+/logs/client.log
+/**.db3
+/test**
+/clientapp/**.db3
+/serverapp/**.db3
