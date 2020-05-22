@@ -9,7 +9,7 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtGui import QIcon, QFont
 from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidgetItem, QAction, QPushButton
 
-from messenger.messenger_client.clientapp import client_gui_chat_window as desing
+import client_gui_chat_window as desing
 from messenger.messenger_client.client_config.utils import send_message, get_message
 from messenger.messenger_client.clientapp.client_profile import ClientProfile
 from messenger.messenger_client.clientapp.database_client import ClientDB
