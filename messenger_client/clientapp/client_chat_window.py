@@ -1,3 +1,4 @@
+import os
 import re
 import sys  # sys нужен для передачи argv в QApplication
 import threading
@@ -6,7 +7,7 @@ from socket import AF_INET, SOCK_STREAM, socket
 
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtGui import QIcon, QFont
-from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidgetItem, QAction
+from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidgetItem, QAction, QPushButton
 
 from clientapp import client_gui_chat_window as desing
 from client_config.utils import send_message, get_message
@@ -123,8 +124,35 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
         self.pushButton_bold.clicked.connect(self.actionBold)
         self.pushButton_italic.clicked.connect(self.actionItalic)
         self.pushButton_underlined.clicked.connect(self.actionUnderlined)
+        # self.pushButton_smile.clicked.connect(self.add_smile)
 
         self.action_profile.triggered.connect(self.open_profile)
+
+        self.add_smiles()
+
+    def add_smiles(self):
+        path_to_smiles = '../static/smiles'
+
+        for smile in os.listdir(path_to_smiles):
+            url = os.path.join(path_to_smiles, smile)
+
+            pushButton_smile = QPushButton(self.horizontalLayoutWidget)
+            rMyIcon = QtGui.QPixmap(url)
+            pushButton_smile.setIcon(QtGui.QIcon(rMyIcon))
+            pushButton_smile.setObjectName(url)
+            self.horizontalLayout.addWidget(pushButton_smile)
+
+            pushButton_smile.clicked.connect(self.insert_smile)
+
+    def insert_smile(self):
+        # """
+        # Returns the QPushButton instance
+        # :param text: the button text
+        # :return the QPushButton object
+        # """
+        clicked_button = self.sender()
+        url = clicked_button.objectName()
+        self.text_new_msg.insertHtml('<img src="%s" />' % url)
 
     def open_profile(self):
         self.ciient_profile = ClientProfile()

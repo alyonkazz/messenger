@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'clientapp\client_gui_chat_window2.ui'
+# Form implementation generated from reading ui file 'tmp\client_gui_chat_window.ui'
 #
 # Created by: PyQt5 UI code generator 5.14.2
 #
@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-        MainWindow.setObjectName("ChangeImage")
+        MainWindow.setObjectName("MainWindow")
         MainWindow.resize(686, 541)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -44,6 +44,12 @@ class Ui_MainWindow(object):
         self.list_msgs = QtWidgets.QListWidget(self.centralwidget)
         self.list_msgs.setGeometry(QtCore.QRect(270, 10, 401, 301))
         self.list_msgs.setObjectName("list_msgs")
+        self.horizontalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
+        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(270, 450, 321, 25))
+        self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
+        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout.setObjectName("horizontalLayout")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 686, 21))
@@ -64,12 +70,12 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("ChangeImage", "ChangeImage"))
-        self.pushButton_underlined.setText(_translate("ChangeImage", "подчеркивание"))
-        self.pushButton_italic.setText(_translate("ChangeImage", "курсив"))
-        self.list_add_contact.setToolTip(_translate("ChangeImage", "Для добавления пользователя дважды кликните по его имени"))
-        self.line_find_contact.setPlaceholderText(_translate("ChangeImage", "Введите имя пользователя"))
-        self.pushButton_bold.setText(_translate("ChangeImage", "полужирный"))
-        self.pushButton_send_msg.setText(_translate("ChangeImage", "Отправить"))
-        self.menuMenu.setTitle(_translate("ChangeImage", "Меню"))
-        self.action_profile.setText(_translate("ChangeImage", "Профиль"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.pushButton_underlined.setText(_translate("MainWindow", "подчеркивание"))
+        self.pushButton_italic.setText(_translate("MainWindow", "курсив"))
+        self.list_add_contact.setToolTip(_translate("MainWindow", "Для добавления пользователя дважды кликните по его имени"))
+        self.line_find_contact.setPlaceholderText(_translate("MainWindow", "Введите имя пользователя"))
+        self.pushButton_bold.setText(_translate("MainWindow", "полужирный"))
+        self.pushButton_send_msg.setText(_translate("MainWindow", "Отправить"))
+        self.menuMenu.setTitle(_translate("MainWindow", "Меню"))
+        self.action_profile.setText(_translate("MainWindow", "Профиль"))
