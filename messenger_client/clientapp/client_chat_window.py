@@ -19,6 +19,7 @@ from messenger_client.client_config.settings import ACTION, TIME, ACCOUNT_NAME, 
     MESSAGE_TEXT, SENDER, DESTINATION, RESPONSE, ADD_CONTACT, REMOVE_CONTACT, \
     SERVER, GET_ALL_USERS, ALL_USERS
 
+print(os.path.abspath(os.path.dirname(__file__)))
 
 @func_to_log
 def create_message(sock, database, acc_name, to_user, message):
@@ -312,3 +313,5 @@ def main():
 
 if __name__ == '__main__':  # Если мы запускаем файл напрямую, а не импортируем
     main()  # то запускаем функцию main()
+
+
