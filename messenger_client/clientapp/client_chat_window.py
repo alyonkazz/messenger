@@ -6,16 +6,16 @@ import time
 from socket import AF_INET, SOCK_STREAM, socket
 
 from PyQt5 import QtWidgets, QtCore, QtGui
-from PyQt5.QtGui import QIcon, QFont
-from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidgetItem, QAction, QPushButton
+from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidgetItem, QPushButton
 
 import client_gui_chat_window as desing
-from ../client_config.utils import send_message, get_message
+from clientapp.client_config import send_message, get_message
 from client_profile import ClientProfile
 from database_client import ClientDB
 from decorators import func_to_log
-from client_logs.client_log_config import CLIENT_LOG as log
-from client_config.settings import ACTION, TIME, ACCOUNT_NAME, MESSAGE, \
+from clientapp.client_logs.client_log_config import CLIENT_LOG as log
+from clientapp.client_config.settings import ACTION, TIME, ACCOUNT_NAME, MESSAGE, \
     MESSAGE_TEXT, SENDER, DESTINATION, RESPONSE, ADD_CONTACT, REMOVE_CONTACT, \
     SERVER, GET_ALL_USERS, ALL_USERS
 
@@ -132,7 +132,7 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
         self.add_smiles()
 
     def add_smiles(self):
-        path_to_smiles = '../static/smiles'
+        path_to_smiles = 'static/smiles'
 
         for smile in os.listdir(path_to_smiles):
             url = os.path.join(path_to_smiles, smile)

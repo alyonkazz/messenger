@@ -7,7 +7,7 @@
 /clientapp/**.db3
 /serverapp/**.db3
 /venv/
-/messenger_client/client_logs/client.log
+/messenger_client/clientapp/client_logs/client.log
 /messenger_server/server_logs/server.log
 /messenger_server/**.db3
 /messenger_client/**.db3

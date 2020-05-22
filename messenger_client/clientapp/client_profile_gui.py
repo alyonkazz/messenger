@@ -19,7 +19,7 @@ class Ui_MainWindow(object):
         self.label_avatar = QtWidgets.QLabel(self.centralwidget)
         self.label_avatar.setGeometry(QtCore.QRect(120, 50, 151, 151))
         self.label_avatar.setText("")
-        self.label_avatar.setPixmap(QtGui.QPixmap("../static/defaul_avatar.jpg"))
+        self.label_avatar.setPixmap(QtGui.QPixmap("static/defaul_avatar.jpg"))
         self.label_avatar.setScaledContents(True)
         self.label_avatar.setObjectName("label_avatar")
         self.label_username = QtWidgets.QLabel(self.centralwidget)

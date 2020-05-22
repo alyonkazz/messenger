@@ -5,7 +5,7 @@ from sqlalchemy import create_engine, Column, Integer, String, DateTime, Text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-from client_config.settings import POOL_RECYCLE
+from clientapp.client_config.settings import POOL_RECYCLE
 
 
 class ClientDB:
