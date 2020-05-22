@@ -5,7 +5,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidgetItem, QAction, QFileDialog
 
-from change_image.change_image import ChangeImage
+from clientapp.change_avatar import ChangeAvatar
 from clientapp import client_profile_gui as desing
 
 
@@ -20,23 +20,8 @@ class ClientProfile(QMainWindow, desing.Ui_MainWindow):
         self.pushButton_edit_avatar.clicked.connect(self.edit_avatar)
 
     def edit_avatar(self):
-        self.change_image = ChangeImage()
-
-        save_avatar_action = QAction('Сохранить', self)
-        save_avatar_action.triggered.connect(self.save_edit)
-        self.change_image.fileMenu.addAction(save_avatar_action)
-
+        self.change_image = ChangeAvatar(self)
         self.change_image.show()
-
-    def save_edit(self):
-        print(self.change_image.image_path)
-        # TODO название аватара - ник
-        name = '1111'
-        new_img_name = os.path.join('../static', name + '.png')
-        self.change_image.img_tmp.save(new_img_name, 'PNG')
-        self.change_image.close()
-
-        self.label_avatar.setPixmap(QtGui.QPixmap(new_img_name))
 
 
 def main():

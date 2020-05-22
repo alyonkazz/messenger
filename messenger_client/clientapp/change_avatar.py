@@ -8,10 +8,12 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QFileDialog, QAct
 from PyQt5.QtGui import QPixmap
 
 
-class ChangeImage(QMainWindow):
+class ChangeAvatar(QMainWindow):
 
     def __init__(self, parent=None):
-        super(ChangeImage, self).__init__(parent)
+        super(ChangeAvatar, self).__init__(parent)
+
+        self.parent = parent
 
         self.menu()
 
@@ -56,7 +58,7 @@ class ChangeImage(QMainWindow):
 
     def open_image(self):
         self.image_path = QFileDialog.getOpenFileName(self, 'Open file',
-                                                      os.path.abspath(__file__), "Images (*.png *.xpm *.jpg)")[0]
+                                                      '/', "Images (*.png *.xpm *.jpg)")[0]
 
         self.convert_image(lambda: self.convert_image(self.to_original))
 
@@ -136,13 +138,17 @@ class ChangeImage(QMainWindow):
         self.image_path
 
     def save_image(self):
-        self.new_img_name = self.image_path.replace('.', '(converted).')
-        self.img_tmp.save(self.new_img_name, 'PNG')
+        # TODO название аватара - ник
+        name = '1111'
+        new_img_name = os.path.join('../static', name + '.png')
+        self.img_tmp.save(new_img_name, 'PNG')
+        self.parent.label_avatar.setPixmap(QPixmap(new_img_name))
+        self.close()
 
 
 def main():
     app = QApplication(sys.argv)
-    win = ChangeImage()
+    win = ChangeAvatar()
     win.show()
     return app.exec_()
 
