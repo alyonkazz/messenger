@@ -9,13 +9,13 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtGui import QIcon, QFont
 from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidgetItem, QAction, QPushButton
 
-from clientapp import client_gui_chat_window as desing
-from client_config.utils import send_message, get_message
-from clientapp.client_profile import ClientProfile
-from clientapp.database_client import ClientDB
-from clientapp.decorators import func_to_log
-from client_logs.client_log_config import CLIENT_LOG as log
-from client_config.settings import ACTION, TIME, ACCOUNT_NAME, MESSAGE, \
+from messenger_client.clientapp import client_gui_chat_window as desing
+from messenger_client.client_config.utils import send_message, get_message
+from messenger_client.clientapp.client_profile import ClientProfile
+from messenger_client.clientapp.database_client import ClientDB
+from messenger_client.clientapp.decorators import func_to_log
+from messenger_client.client_logs.client_log_config import CLIENT_LOG as log
+from messenger_client.client_config.settings import ACTION, TIME, ACCOUNT_NAME, MESSAGE, \
     MESSAGE_TEXT, SENDER, DESTINATION, RESPONSE, ADD_CONTACT, REMOVE_CONTACT, \
     SERVER, GET_ALL_USERS, ALL_USERS
 
