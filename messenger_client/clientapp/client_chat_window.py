@@ -10,12 +10,12 @@ from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidgetItem, QPushButton
 
 import client_gui_chat_window as desing
-from clientapp.client_config import send_message, get_message
+from client_config.utils import send_message, get_message
 from client_profile import ClientProfile
 from database_client import ClientDB
 from decorators import func_to_log
-from clientapp.client_logs.client_log_config import CLIENT_LOG as log
-from clientapp.client_config.settings import ACTION, TIME, ACCOUNT_NAME, MESSAGE, \
+from client_logs.client_log_config import CLIENT_LOG as log
+from client_config.settings import ACTION, TIME, ACCOUNT_NAME, MESSAGE, \
     MESSAGE_TEXT, SENDER, DESTINATION, RESPONSE, ADD_CONTACT, REMOVE_CONTACT, \
     SERVER, GET_ALL_USERS, ALL_USERS
 
