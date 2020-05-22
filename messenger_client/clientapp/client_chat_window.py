@@ -10,7 +10,7 @@ from PyQt5.QtGui import QIcon, QFont
 from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidgetItem, QAction, QPushButton
 
 import client_gui_chat_window as desing
-from client_config.utils import send_message, get_message
+from ../client_config.utils import send_message, get_message
 from client_profile import ClientProfile
 from database_client import ClientDB
 from decorators import func_to_log
