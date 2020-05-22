@@ -1,6 +1,6 @@
 Клонируем репозиторий 
 
-git clone https://github.com/alyonkazz/messenger.git
+git clone https://github.com/alyonkazz/messenger.git -b lesson1
 
 Переходим в папку с проектом и создаем venv
 
