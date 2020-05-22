@@ -1,8 +1,8 @@
 import json
 import time
 
-from clientapp.client_config.settings import ENCODING, MAX_PACKAGE_LENGTH
-from clientapp.decorators import func_to_log
+from client_config.settings import ENCODING, MAX_PACKAGE_LENGTH
+from decorators import func_to_log
 
 
 @func_to_log

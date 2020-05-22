@@ -5,8 +5,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidgetItem, QAction, QFileDialog
 
-from messenger_client.clientapp.change_avatar import ChangeAvatar
-from messenger_client.clientapp import client_profile_gui as desing
+from change_avatar import ChangeAvatar
+import client_profile_gui as desing
 
 
 class ClientProfile(QMainWindow, desing.Ui_MainWindow):
