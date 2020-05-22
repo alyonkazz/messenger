@@ -22,8 +22,8 @@ class ClientProfile(QMainWindow, desing.Ui_MainWindow):
         self.pushButton_edit_avatar.clicked.connect(self.edit_avatar)
         print(self.parent.client_name)
 
-        if os.path.exists(os.path.join('../static', self.parent.client_name + '.png')):
-            self.label_avatar.setPixmap(QtGui.QPixmap(os.path.join('../static/', self.parent.client_name)))
+        if os.path.exists(os.path.join('static', self.parent.client_name + '.png')):
+            self.label_avatar.setPixmap(QtGui.QPixmap(os.path.join('static/', self.parent.client_name)))
 
     def edit_avatar(self):
         self.change_image = ChangeAvatar(self)
