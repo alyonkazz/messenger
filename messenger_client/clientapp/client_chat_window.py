@@ -155,7 +155,7 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
         self.text_new_msg.insertHtml('<img src="%s" />' % url)
 
     def open_profile(self):
-        self.ciient_profile = ClientProfile()
+        self.ciient_profile = ClientProfile(self)
         self.ciient_profile.show()
 
     def actionBold(self):
