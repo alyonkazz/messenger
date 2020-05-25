@@ -129,6 +129,11 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
 
         self.action_profile.triggered.connect(self.open_profile)
 
+        if os.path.exists(os.path.join(STATIC_PATH, self.client_name + '.png')):
+            self.label_avatar.setPixmap(QtGui.QPixmap(os.path.join(STATIC_PATH, self.client_name)))
+        else:
+            self.label_avatar.setPixmap(QtGui.QPixmap(os.path.join(STATIC_PATH, 'defaul_avatar.jpg')))
+
         self.add_smiles()
 
     def add_smiles(self):

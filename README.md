@@ -20,12 +20,7 @@ pip3 install -r requirements.txt
 
 Запуск сервера 
 
-Из сновной папки messenger переходим в папку приложения 
-
-cd messenger_server
-
-Запускаем сервер 
-python3.8 server.py
+python3.8 messenger_server/server.py
 
 По умолчанию сервер доступен на 127.0.0.1:7777
 
@@ -37,13 +32,16 @@ python3.8 server.py --host xx.xx.xx.xx --port yyy
 
 Запуск клиента 
 
-Из основной папки messenger переходим в папку приложения 
-(если это новая терминальная сессия, не забываем перейти в venv, source venv/bin/activate)
+Открываем еще одну терминальную сессию, 
 
-cd messenger_client/
+переходим в папку проекта
+cd messenger
+
+не забываем перейти в venv 
+source venv/bin/activate
 
 Запускаем клиент 
-python3 client.py
+python3.8 messenger_client/client.py
 
 По умолчанию подключается к 127.0.0.1:7777
 

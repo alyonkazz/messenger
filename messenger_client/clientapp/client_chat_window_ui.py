@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'tmp\client_chat_window_ui.ui'
+# Form implementation generated from reading ui file 'messenger_client/tmp/client_chat_window_ui.ui'
 #
 # Created by: PyQt5 UI code generator 5.14.2
 #
@@ -33,7 +33,7 @@ class Ui_MainWindow(object):
         self.line_find_contact.setText("")
         self.line_find_contact.setObjectName("line_find_contact")
         self.list_contacts = QtWidgets.QListWidget(self.centralwidget)
-        self.list_contacts.setGeometry(QtCore.QRect(10, 10, 251, 361))
+        self.list_contacts.setGeometry(QtCore.QRect(10, 90, 251, 281))
         self.list_contacts.setObjectName("list_contacts")
         self.pushButton_bold = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_bold.setGeometry(QtCore.QRect(270, 420, 101, 23))
@@ -50,6 +50,10 @@ class Ui_MainWindow(object):
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setObjectName("horizontalLayout")
+        self.label_avatar = QtWidgets.QLabel(self.centralwidget)
+        self.label_avatar.setGeometry(QtCore.QRect(10, 10, 71, 71))
+        self.label_avatar.setScaledContents(True)
+        self.label_avatar.setObjectName("label_avatar")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 686, 21))
@@ -77,5 +81,6 @@ class Ui_MainWindow(object):
         self.line_find_contact.setPlaceholderText(_translate("MainWindow", "Введите имя пользователя"))
         self.pushButton_bold.setText(_translate("MainWindow", "полужирный"))
         self.pushButton_send_msg.setText(_translate("MainWindow", "Отправить"))
+        self.label_avatar.setText(_translate("MainWindow", "аватар"))
         self.menuMenu.setTitle(_translate("MainWindow", "Меню"))
         self.action_profile.setText(_translate("MainWindow", "Профиль"))
