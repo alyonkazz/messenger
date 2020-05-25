@@ -7,6 +7,8 @@ from PyQt5.QtCore import QRect
 from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QFileDialog, QAction, QPushButton
 from PyQt5.QtGui import QPixmap
 
+from client_config.settings import ROOT_PATH, STATIC_PATH
+
 
 class ChangeAvatar(QMainWindow):
 
@@ -140,7 +142,7 @@ class ChangeAvatar(QMainWindow):
     def save_image(self):
         # TODO название аватара - ник
         name = self.parent.parent.client_name
-        new_img_name = os.path.join('static', name + '.png')
+        new_img_name = os.path.join(STATIC_PATH, name + '.png')
         self.img_tmp.save(new_img_name, 'PNG')
         self.parent.label_avatar.setPixmap(QPixmap(new_img_name))
         self.close()

@@ -5,6 +5,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidgetItem, QAction, QFileDialog
 
+from client_config.settings import STATIC_PATH
 from clientapp.change_avatar import ChangeAvatar
 import clientapp.client_profile_gui as desing
 
@@ -22,8 +23,10 @@ class ClientProfile(QMainWindow, desing.Ui_MainWindow):
         self.pushButton_edit_avatar.clicked.connect(self.edit_avatar)
         print(self.parent.client_name)
 
-        if os.path.exists(os.path.join('static', self.parent.client_name + '.png')):
-            self.label_avatar.setPixmap(QtGui.QPixmap(os.path.join('static/', self.parent.client_name)))
+        if os.path.exists(os.path.join(STATIC_PATH, self.parent.client_name + '.png')):
+            self.label_avatar.setPixmap(QtGui.QPixmap(os.path.join(STATIC_PATH, self.parent.client_name)))
+        else:
+            self.label_avatar.setPixmap(QtGui.QPixmap(os.path.join(STATIC_PATH, 'defaul_avatar.jpg')))
 
     def edit_avatar(self):
         self.change_image = ChangeAvatar(self)

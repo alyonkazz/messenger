@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication
 import clientapp.client_gui_login as design
 from clientapp.client_chat_window import ClientApp
 from client_config.utils import send_message, get_message
-from clientapp.database_client import ClientDB
+from client_database.database_client import ClientDB
 from clientapp.decorators import func_to_log
 from client_logs.client_log_config import CLIENT_LOG as log
 from client_config.settings import DEFAULT_HOST, DEFAULT_PORT, ACTION, PRESENCE, TIME, USER, SENDER, RESPONSE, ERROR, \
@@ -83,6 +83,7 @@ class StartClient(QMainWindow, design.Ui_Dialog_login):
 
         # Отправляем приветствие и получаем ответ от сервера
         ans = presence_request(self.sock, self.client_name, self.password, request)
+        log.debug(f'answer to PRESENCE: {ans}')
         if ans[ACTION] == PRESENCE:
             if ans[RESPONSE] == 200:
 
@@ -91,6 +92,8 @@ class StartClient(QMainWindow, design.Ui_Dialog_login):
                 database.fill_contacts(contacts)
 
                 self.start_chat(database)
+            else:
+                self.label_error.setText(ans[ERROR])
         elif ans[ACTION] == REGISTRATION:
             if ans[RESPONSE] == 200:
                 # TODO win 'reg successful'

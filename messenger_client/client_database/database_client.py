@@ -5,7 +5,7 @@ from sqlalchemy import create_engine, Column, Integer, String, DateTime, Text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-from client_config.settings import POOL_RECYCLE
+from client_config.settings import POOL_RECYCLE, ROOT_PATH
 
 
 class ClientDB:
@@ -42,7 +42,8 @@ class ClientDB:
             return f'<User({self.contact}, {self.direction}, {self.message}, {self.date})>'
 
     def __init__(self, name):
-        self.engine = create_engine(f'sqlite:///client_{name}.db3', echo=False, pool_recycle=POOL_RECYCLE,
+        self.engine = create_engine(f'sqlite:///{ROOT_PATH}/client_database/client_{name}.db3',
+                                    echo=False, pool_recycle=POOL_RECYCLE,
                                     connect_args={'check_same_thread': False})
 
         # Создаём таблицы

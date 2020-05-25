@@ -9,15 +9,15 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidgetItem, QPushButton
 
-import clientapp.client_gui_chat_window as desing
+import clientapp.client_chat_window_ui as desing
 from client_config.utils import send_message, get_message
 from clientapp.client_profile import ClientProfile
-from clientapp.database_client import ClientDB
+from client_database.database_client import ClientDB
 from clientapp.decorators import func_to_log
 from client_logs.client_log_config import CLIENT_LOG as log
 from client_config.settings import ACTION, TIME, ACCOUNT_NAME, MESSAGE, \
     MESSAGE_TEXT, SENDER, DESTINATION, RESPONSE, ADD_CONTACT, REMOVE_CONTACT, \
-    SERVER, GET_ALL_USERS, ALL_USERS
+    SERVER, GET_ALL_USERS, ALL_USERS, ROOT_PATH, STATIC_PATH
 
 print(os.path.abspath(os.path.dirname(__file__)))
 
@@ -132,7 +132,7 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
         self.add_smiles()
 
     def add_smiles(self):
-        path_to_smiles = '../static/smiles'
+        path_to_smiles = os.path.join(STATIC_PATH, 'smiles')
 
         for smile in os.listdir(path_to_smiles):
             url = os.path.join(path_to_smiles, smile)

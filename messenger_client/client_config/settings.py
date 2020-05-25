@@ -55,3 +55,6 @@ LOGGING_LEVEL = logging.DEBUG
 """ client database """
 # CLIENT_DATABASE = f'sqlite:///client_{name}.db3'
 POOL_RECYCLE = 3600
+
+""" static """
+STATIC_PATH = os.path.join(ROOT_PATH, 'static')

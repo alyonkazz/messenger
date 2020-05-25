@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'tmp\client_gui_chat_window.ui'
+# Form implementation generated from reading ui file 'tmp\client_chat_window_ui.ui'
 #
 # Created by: PyQt5 UI code generator 5.14.2
 #
