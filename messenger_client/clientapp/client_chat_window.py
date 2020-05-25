@@ -132,7 +132,7 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
         self.add_smiles()
 
     def add_smiles(self):
-        path_to_smiles = 'static/smiles'
+        path_to_smiles = '../static/smiles'
 
         for smile in os.listdir(path_to_smiles):
             url = os.path.join(path_to_smiles, smile)

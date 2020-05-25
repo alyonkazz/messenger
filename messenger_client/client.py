@@ -6,11 +6,11 @@ from PyQt5.QtWidgets import QMainWindow, QApplication
 
 import clientapp.client_gui_login as design
 from clientapp.client_chat_window import ClientApp
-from clientapp.client_config import send_message, get_message
+from client_config.utils import send_message, get_message
 from clientapp.database_client import ClientDB
 from clientapp.decorators import func_to_log
-from clientapp.client_logs.client_log_config import CLIENT_LOG as log
-from clientapp.client_config.settings import DEFAULT_HOST, DEFAULT_PORT, ACTION, PRESENCE, TIME, USER, SENDER, RESPONSE, ERROR, \
+from client_logs.client_log_config import CLIENT_LOG as log
+from client_config.settings import DEFAULT_HOST, DEFAULT_PORT, ACTION, PRESENCE, TIME, USER, SENDER, RESPONSE, ERROR, \
     GET_CONTACTS, CONTACTS, PASSWORD, REGISTRATION
 # TODO добавить в меню настройку хоста и порта
 

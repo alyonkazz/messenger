@@ -1,3 +1,5 @@
+Использован Python 3.8
+
 Клонируем репозиторий 
 
 git clone https://github.com/alyonkazz/messenger.git -b lesson1
