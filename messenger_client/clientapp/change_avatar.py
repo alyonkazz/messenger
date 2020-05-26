@@ -24,6 +24,8 @@ class ChangeAvatar(QMainWindow):
         self.fileMenu = self.menubar.addMenu('Файл')
         self.editMenu = self.menubar.addMenu('Изменить изображение')
         self.editMenu.setEnabled(False)
+        self.resizeMenu = self.menubar.addMenu('Изменить размер')
+        self.resizeMenu.setEnabled(False)
         self.resize(500, 500)
 
         self.openAction = QAction('Открыть изображение', self)
@@ -55,29 +57,39 @@ class ChangeAvatar(QMainWindow):
         convert_to_original_action.triggered.connect(lambda: self.convert_image(self.to_original))
         self.editMenu.addAction(convert_to_original_action)
 
+        resize_to_500_400_action = QAction('500x400', self)
+        resize_to_500_400_action.triggered.connect(lambda: self.convert_image(lambda: self.resize_image(500, 400)))
+        self.resizeMenu.addAction(resize_to_500_400_action)
+
+        resize_to_400_500_action = QAction('400x500', self)
+        resize_to_400_500_action.triggered.connect(lambda: self.convert_image(lambda: self.resize_image(400, 500)))
+        self.resizeMenu.addAction(resize_to_400_500_action)
+
         self.label = QLabel()
         self.setCentralWidget(self.label)
 
     def open_image(self):
         self.image_path = QFileDialog.getOpenFileName(self, 'Open file',
                                                       '/', "Images (*.png *.xpm *.jpg)")[0]
+        self.image = Image.open(self.image_path)
 
         self.convert_image(lambda: self.convert_image(self.to_original))
 
         if self.image_path:
             self.editMenu.setEnabled(True)
             self.save_image_action.setEnabled(True)
+            self.resizeMenu.setEnabled(True)
 
     def convert_image(self, convert_action):
-        image = Image.open(self.image_path)
-        self.draw = ImageDraw.Draw(image)
-        self.width = image.size[0]
-        self.height = image.size[1]
-        self.pix = image.load()
+
+        self.draw = ImageDraw.Draw(self.image)
+        self.width = self.image.size[0]
+        self.height = self.image.size[1]
+        self.pix = self.image.load()
 
         convert_action()
 
-        self.img_tmp = ImageQt(image.convert('RGBA'))
+        self.img_tmp = ImageQt(self.image.convert('RGBA'))
         self.pixmap = QPixmap.fromImage(self.img_tmp)
 
         self.label.setPixmap(self.pixmap)
@@ -137,7 +149,10 @@ class ChangeAvatar(QMainWindow):
                 self.draw.point((i, j), (a, b, c))
 
     def to_original(self):
-        self.image_path
+        self.image = Image.open(self.image_path)
+
+    def resize_image(self, width, height):
+        self.image = self.image.resize((width, height), Image.BICUBIC)
 
     def save_image(self):
         # TODO обновление аватара во всех окнах (переписать?)
