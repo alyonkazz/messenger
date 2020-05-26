@@ -3,11 +3,11 @@ import sys
 
 from PIL import Image, ImageDraw
 from PIL.ImageQt import ImageQt
-from PyQt5.QtCore import QRect
+from PyQt5.QtCore import QRect, QByteArray, QBuffer, QIODevice
 from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QFileDialog, QAction, QPushButton
 from PyQt5.QtGui import QPixmap
 
-from client_config.settings import ROOT_PATH, STATIC_PATH
+from client_config.settings import STATIC_PATH
 
 
 class ChangeAvatar(QMainWindow):
@@ -78,10 +78,10 @@ class ChangeAvatar(QMainWindow):
         convert_action()
 
         self.img_tmp = ImageQt(image.convert('RGBA'))
-        pixmap = QPixmap.fromImage(self.img_tmp)
+        self.pixmap = QPixmap.fromImage(self.img_tmp)
 
-        self.label.setPixmap(pixmap)
-        self.resize(pixmap.size())
+        self.label.setPixmap(self.pixmap)
+        self.resize(self.pixmap.size())
         self.adjustSize()
 
     def to_grey(self):
@@ -144,6 +144,15 @@ class ChangeAvatar(QMainWindow):
         name = self.parent.parent.client_name
         new_img_name = os.path.join(STATIC_PATH, name + '.png')
         self.img_tmp.save(new_img_name, 'PNG')
+
+        ba = QByteArray()
+        buff = QBuffer(ba)
+        buff.open(QIODevice.WriteOnly)
+        ok = self.pixmap.save(buff, "PNG")
+        assert ok
+        pixmap_bytes = ba.data()
+        self.parent.parent.database.add_client_info(pixmap_bytes)
+
         self.parent.label_avatar.setPixmap(QPixmap(new_img_name))
         self.close()
 

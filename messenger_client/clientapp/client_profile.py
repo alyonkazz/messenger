@@ -21,7 +21,6 @@ class ClientProfile(QMainWindow, desing.Ui_MainWindow):
         self.parent = parent
 
         self.pushButton_edit_avatar.clicked.connect(self.edit_avatar)
-        print(self.parent.client_name)
 
         if os.path.exists(os.path.join(STATIC_PATH, self.parent.client_name + '.png')):
             self.label_avatar.setPixmap(QtGui.QPixmap(os.path.join(STATIC_PATH, self.parent.client_name)))

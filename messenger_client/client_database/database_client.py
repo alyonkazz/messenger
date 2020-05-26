@@ -1,6 +1,6 @@
 import datetime
 
-from sqlalchemy import create_engine, Column, Integer, String, DateTime, Text
+from sqlalchemy import create_engine, Column, Integer, String, DateTime, Text, BLOB
 # Для использования декларативного стиля необходима функция declarative_base
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -10,6 +10,17 @@ from client_config.settings import POOL_RECYCLE, ROOT_PATH
 
 class ClientDB:
     base = declarative_base()
+
+    class ClientInfo(base):
+        __tablename__ = 'Client_info'
+        id = Column(Integer, primary_key=True)
+        avatar = Column(BLOB)
+
+        def __init__(self, avatar):
+            self.avatar = avatar
+
+        def __repr__(self):
+            return f'<User({self.avatar})>'
 
     # таблица со списком контактов
     class Contacts(base):
@@ -94,11 +105,21 @@ class ClientDB:
             for history_row in query.all()
         ]
 
+    def add_client_info(self, avatar_bytes):
+        client_info = self.session.query(self.ClientInfo) \
+            .filter_by(id=1).update({'avatar': avatar_bytes})
+        self.session.commit()
+
+    def get_avatar(self):
+        query = self.session.query(self.ClientInfo)
+        return query.all()
+
 
 if __name__ == '__main__':
-    test_db = ClientDB('test1')
+    test_db = ClientDB('t2')
     # test_db.add_contact('test1')
     # test_db.del_contact('n')
     # test_db.save_message('test1', 'in', 'in_msg')
     # print(test_db.get_history('test1'))
-    print(test_db.get_contacts())
+    # print(test_db.get_contacts())
+    print(test_db.get_avatar())
