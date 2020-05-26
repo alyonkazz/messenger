@@ -140,7 +140,7 @@ class ChangeAvatar(QMainWindow):
         self.image_path
 
     def save_image(self):
-        # TODO название аватара - ник
+        # TODO обновление аватара во всех окнах (переписать?)
         name = self.parent.parent.client_name
         new_img_name = os.path.join(STATIC_PATH, name + '.png')
         self.img_tmp.save(new_img_name, 'PNG')
@@ -154,6 +154,7 @@ class ChangeAvatar(QMainWindow):
         self.parent.parent.database.add_client_info(pixmap_bytes)
 
         self.parent.label_avatar.setPixmap(QPixmap(new_img_name))
+        self.parent.parent.label_avatar.setPixmap(QPixmap(new_img_name))
         self.close()
 
 
