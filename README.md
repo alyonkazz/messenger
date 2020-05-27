@@ -5,7 +5,7 @@ pip3 install --upgrade pip
 
 Клонируем репозиторий 
 
-git clone https://github.com/alyonkazz/messenger.git
+git clone https://github.com/alyonkazz/messenger.git -b lesson2
 
 Переходим в папку с проектом и создаем venv
 
