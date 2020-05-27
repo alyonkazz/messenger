@@ -27,7 +27,7 @@ python3.8 messenger_server/server.py
 Для запуска с указанием IP и порта 
 python3.8 server.py --host xx.xx.xx.xx --port yyy
 
-Логи по умочанию в папке ${appdir}/logs
+Логи по умочанию в папке ${appdir}/server_logs
 
 
 Запуск клиента 
