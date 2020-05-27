@@ -10,7 +10,7 @@ import logging
 import os
 import sys
 
-from server_config.settings import LOG_DIR, CLIENT_LOG_FILE, ENCODING, LOGGING_LEVEL
+from client_config.settings import LOG_DIR, CLIENT_LOG_FILE, ENCODING, LOGGING_LEVEL
 sys.path.append('../')
 
 # Определить формат сообщений

@@ -3,8 +3,8 @@ import sys
 import os
 import unittest
 
-from client_config.settings import ENCODING
-from client_config.utils import send_message, get_message
+from clientapp.client_config.settings import ENCODING
+from clientapp.client_config import send_message, get_message
 
 sys.path.append(os.path.join(os.getcwd(), '..'))
 

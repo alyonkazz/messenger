@@ -6,19 +6,20 @@ import time
 from socket import AF_INET, SOCK_STREAM, socket
 
 from PyQt5 import QtWidgets, QtCore, QtGui
-from PyQt5.QtGui import QIcon, QFont
-from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidgetItem, QAction, QPushButton
+from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidgetItem, QPushButton
 
-from clientapp import client_gui_chat_window as desing
+import clientapp.client_chat_window_ui as desing
 from client_config.utils import send_message, get_message
 from clientapp.client_profile import ClientProfile
-from clientapp.database_client import ClientDB
+from client_database.database_client import ClientDB
 from clientapp.decorators import func_to_log
 from client_logs.client_log_config import CLIENT_LOG as log
 from client_config.settings import ACTION, TIME, ACCOUNT_NAME, MESSAGE, \
     MESSAGE_TEXT, SENDER, DESTINATION, RESPONSE, ADD_CONTACT, REMOVE_CONTACT, \
-    SERVER, GET_ALL_USERS, ALL_USERS
+    SERVER, GET_ALL_USERS, ALL_USERS, ROOT_PATH, STATIC_PATH
 
+print(os.path.abspath(os.path.dirname(__file__)))
 
 @func_to_log
 def create_message(sock, database, acc_name, to_user, message):
@@ -128,10 +129,15 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
 
         self.action_profile.triggered.connect(self.open_profile)
 
+        if os.path.exists(os.path.join(STATIC_PATH, self.client_name + '.png')):
+            self.label_avatar.setPixmap(QtGui.QPixmap(os.path.join(STATIC_PATH, self.client_name)))
+        else:
+            self.label_avatar.setPixmap(QtGui.QPixmap(os.path.join(STATIC_PATH, 'defaul_avatar.jpg')))
+
         self.add_smiles()
 
     def add_smiles(self):
-        path_to_smiles = '../static/smiles'
+        path_to_smiles = os.path.join(STATIC_PATH, 'smiles')
 
         for smile in os.listdir(path_to_smiles):
             url = os.path.join(path_to_smiles, smile)
@@ -155,7 +161,7 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
         self.text_new_msg.insertHtml('<img src="%s" />' % url)
 
     def open_profile(self):
-        self.ciient_profile = ClientProfile()
+        self.ciient_profile = ClientProfile(self)
         self.ciient_profile.show()
 
     def actionBold(self):
@@ -312,3 +318,5 @@ def main():
 
 if __name__ == '__main__':  # Если мы запускаем файл напрямую, а не импортируем
     main()  # то запускаем функцию main()
+
+

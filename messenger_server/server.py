@@ -119,6 +119,7 @@ class Server(threading.Thread, metaclass=ServerVerifier):
 
             else:
                 answer = {
+                    ACTION: PRESENCE,
                     RESPONSE: 400,
                     ERROR: 'Пользователь уже подключен',
                 }

@@ -3,9 +3,11 @@ import sys
 
 from PIL import Image, ImageDraw
 from PIL.ImageQt import ImageQt
-from PyQt5.QtCore import QRect
+from PyQt5.QtCore import QRect, QByteArray, QBuffer, QIODevice
 from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QFileDialog, QAction, QPushButton
 from PyQt5.QtGui import QPixmap
+
+from client_config.settings import STATIC_PATH
 
 
 class ChangeAvatar(QMainWindow):
@@ -14,6 +16,7 @@ class ChangeAvatar(QMainWindow):
         super(ChangeAvatar, self).__init__(parent)
 
         self.parent = parent
+        self.convert_img = None
 
         self.menu()
 
@@ -22,6 +25,9 @@ class ChangeAvatar(QMainWindow):
         self.fileMenu = self.menubar.addMenu('Файл')
         self.editMenu = self.menubar.addMenu('Изменить изображение')
         self.editMenu.setEnabled(False)
+        self.convertMenu = self.editMenu.addMenu('Изменить стиль')
+        self.resizeMenu = self.editMenu.addMenu('Изменить размер')
+        self.cropMenu = self.editMenu.addMenu('Обрезать аватар')
         self.resize(500, 500)
 
         self.openAction = QAction('Открыть изображение', self)
@@ -35,23 +41,35 @@ class ChangeAvatar(QMainWindow):
 
         convert_to_grey_action = QAction('Оттенки серого', self)
         convert_to_grey_action.triggered.connect(lambda: self.convert_image(self.to_grey))
-        self.editMenu.addAction(convert_to_grey_action)
+        self.convertMenu.addAction(convert_to_grey_action)
 
         convert_to_sepia_action = QAction('Эффект сепии', self)
         convert_to_sepia_action.triggered.connect(lambda: self.convert_image(self.to_sepia))
-        self.editMenu.addAction(convert_to_sepia_action)
+        self.convertMenu.addAction(convert_to_sepia_action)
 
         convert_to_negative_action = QAction('Эффект негатива', self)
         convert_to_negative_action.triggered.connect(lambda: self.convert_image(self.to_negative))
-        self.editMenu.addAction(convert_to_negative_action)
+        self.convertMenu.addAction(convert_to_negative_action)
 
         convert_to_black_and_white_action = QAction('Черно-белое изображение', self)
         convert_to_black_and_white_action.triggered.connect(lambda: self.convert_image(self.to_black_and_white))
-        self.editMenu.addAction(convert_to_black_and_white_action)
+        self.convertMenu.addAction(convert_to_black_and_white_action)
 
         convert_to_original_action = QAction('Отменить изменения', self)
         convert_to_original_action.triggered.connect(lambda: self.convert_image(self.to_original))
         self.editMenu.addAction(convert_to_original_action)
+
+        resize_to_500_400_action = QAction('500x400', self)
+        resize_to_500_400_action.triggered.connect(lambda: self.convert_image(lambda: self.resize_image(500, 400)))
+        self.resizeMenu.addAction(resize_to_500_400_action)
+
+        resize_to_400_500_action = QAction('400x500', self)
+        resize_to_400_500_action.triggered.connect(lambda: self.convert_image(lambda: self.resize_image(400, 500)))
+        self.resizeMenu.addAction(resize_to_400_500_action)
+
+        crop_action = QAction('Обрезать аватар', self)
+        crop_action.triggered.connect(lambda: self.convert_image(self.crop_image))
+        self.cropMenu.addAction(crop_action)
 
         self.label = QLabel()
         self.setCentralWidget(self.label)
@@ -67,19 +85,24 @@ class ChangeAvatar(QMainWindow):
             self.save_image_action.setEnabled(True)
 
     def convert_image(self, convert_action):
-        image = Image.open(self.image_path)
-        self.draw = ImageDraw.Draw(image)
-        self.width = image.size[0]
-        self.height = image.size[1]
-        self.pix = image.load()
+        self.image = Image.open(self.image_path)
+        if self.convert_img is not None:
+            self.image = self.convert_img
+
+        self.draw = ImageDraw.Draw(self.image)
+        self.width = self.image.size[0]
+        self.height = self.image.size[1]
+        self.pix = self.image.load()
 
         convert_action()
 
-        self.img_tmp = ImageQt(image.convert('RGBA'))
-        pixmap = QPixmap.fromImage(self.img_tmp)
+        self.convert_img = self.image
 
-        self.label.setPixmap(pixmap)
-        self.resize(pixmap.size())
+        self.img_tmp = ImageQt(self.image.convert('RGBA'))
+        self.pixmap = QPixmap.fromImage(self.img_tmp)
+
+        self.label.setPixmap(self.pixmap)
+        self.resize(self.pixmap.size())
         self.adjustSize()
 
     def to_grey(self):
@@ -128,21 +151,37 @@ class ChangeAvatar(QMainWindow):
                 b = self.pix[i, j][1]
                 c = self.pix[i, j][2]
                 S = a + b + c
-                if (S > (((255 + factor) // 2) * 3)):
+                if S > (((255 + factor) // 2) * 3):
                     a, b, c = 255, 255, 255
                 else:
                     a, b, c = 0, 0, 0
                 self.draw.point((i, j), (a, b, c))
 
     def to_original(self):
-        self.image_path
+        self.image = Image.open(self.image_path)
+
+    def resize_image(self, width, height):
+        self.image = self.image.resize((width, height), Image.BICUBIC)
+
+    def crop_image(self):
+        self.image = self.image.crop((0, 0, 150, 150))
 
     def save_image(self):
-        # TODO название аватара - ник
-        name = '1111'
-        new_img_name = os.path.join('../static', name + '.png')
+        # TODO обновление аватара во всех окнах (переписать?)
+        name = self.parent.parent.client_name
+        new_img_name = os.path.join(STATIC_PATH, name + '.png')
         self.img_tmp.save(new_img_name, 'PNG')
+
+        ba = QByteArray()
+        buff = QBuffer(ba)
+        buff.open(QIODevice.WriteOnly)
+        ok = self.pixmap.save(buff, "PNG")
+        assert ok
+        pixmap_bytes = ba.data()
+        self.parent.parent.database.add_client_info(pixmap_bytes)
+
         self.parent.label_avatar.setPixmap(QPixmap(new_img_name))
+        self.parent.parent.label_avatar.setPixmap(QPixmap(new_img_name))
         self.close()
 
 

@@ -14,7 +14,6 @@ def get_message(sock):
         return js_data
     except json.JSONDecodeError:
         print('Не удалось декодировать полученную Json строку.')
-        print(data)
         exit(1)
 
 

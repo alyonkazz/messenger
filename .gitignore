@@ -14,3 +14,5 @@
 /messenger_client/.idea/
 /messenger_server/server_logs/client.log
 /messenger_client/clientapp/**.db3
+/messenger_client/client_logs/**.log
+/messenger_client/client_database/**.db3
