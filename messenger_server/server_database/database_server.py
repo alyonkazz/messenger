@@ -13,7 +13,6 @@ c) списокконтактов (составляется на основан�
 * id_владельца;
 * id_клиента.
 """
-import sys
 import datetime
 import hashlib
 
@@ -21,8 +20,7 @@ from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateT
 # Для использования декларативного стиля необходима функция declarative_base
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-sys.path.append('../messenger/messenger_server/')
-# sys.path.append('/home/alyonkazz/messenger/messenger_server/')
+
 from serverapp.errors import ServerError
 from server_config.settings import POOL_RECYCLE, SERVER_DATABASE, ROOT_PATH
 

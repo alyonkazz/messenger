@@ -3,11 +3,11 @@ import subprocess
 
 from PyQt5.QtWidgets import (QGridLayout, QPushButton, QApplication, QMainWindow, QWidget, QLabel, QLineEdit, QCheckBox)
 
-from messenger_server.server_config.settings import DEFAULT_HOST, DEFAULT_PORT
+from messenger_client.client_config.settings import DEFAULT_HOST, DEFAULT_PORT
 from messenger_server.server_database.database_server import ServerDB
 from messenger_server.serverapp.errors import ServerError
 
-interpreter = 'python3'
+interpreter = 'py'
 
 
 class LauncherForTest(QMainWindow):
@@ -67,18 +67,20 @@ class LauncherForTest(QMainWindow):
         if self.check_box_server.isChecked():
             creationflags_server = subprocess.CREATE_NEW_CONSOLE
 
-        self.process.append(subprocess.Popen([f'{interpreter}', '../messenger/messenger_server/server.py'],
-creationflags=creationflags_server))
+        self.process.append(subprocess.Popen(f'{interpreter} messenger_server/server.py '
+                                             f'--host {self.line_host.text()} '
+                                             f'--port {self.line_port.text()}',
+                                             creationflags=creationflags_server))
 
         for i in range(int(self.line_clients_count.text())):
 
             server_db = ServerDB()
             try:
                 server_db.user_registration(f"test{i + 1}", '123')
-            except:
+            except ServerError:
                 pass
             finally:
-                self.process.append(subprocess.Popen([f'{interpreter}', '../messenger/messenger_client/client.py'],
+                self.process.append(subprocess.Popen(f'{interpreter} messenger_client/client.py',
                                                      creationflags=creationflags_client))
 
     def close_wins(self):
