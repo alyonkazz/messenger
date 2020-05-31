@@ -108,7 +108,7 @@ class ServerDB:
         check_user = self.session.query(self.AllUsers).filter_by(username=name)
         # если логин пользователя используется, создаем ошибку
         if check_user.count():
-            raise ServerError('Пользователь с таким логином уже существует')
+            raise ServerError(f'Пользователь с логином "{name}" уже существует')
 
         # если нет, добавляем его в список пользователей
         else:

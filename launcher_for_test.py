@@ -77,7 +77,7 @@ class LauncherForTest(QMainWindow):
             server_db = ServerDB()
             try:
                 server_db.user_registration(f"test{i + 1}", '123')
-            except ServerError:
+            except:
                 pass
             finally:
                 self.process.append(subprocess.Popen(f'{interpreter} messenger_client/client.py',
