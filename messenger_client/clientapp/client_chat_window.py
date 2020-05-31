@@ -1,3 +1,5 @@
+import asyncio
+import functools
 import os
 import re
 import sys  # sys нужен для передачи argv в QApplication
@@ -19,7 +21,6 @@ from client_config.settings import ACTION, TIME, ACCOUNT_NAME, MESSAGE, \
     MESSAGE_TEXT, SENDER, DESTINATION, RESPONSE, ADD_CONTACT, REMOVE_CONTACT, \
     SERVER, GET_ALL_USERS, ALL_USERS, ROOT_PATH, STATIC_PATH
 
-print(os.path.abspath(os.path.dirname(__file__)))
 
 @func_to_log
 def create_message(sock, database, acc_name, to_user, message):

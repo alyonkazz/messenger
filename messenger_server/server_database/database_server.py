@@ -22,7 +22,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 from serverapp.errors import ServerError
-from server_config.settings import POOL_RECYCLE, SERVER_DATABASE
+from server_config.settings import POOL_RECYCLE, SERVER_DATABASE, ROOT_PATH
 
 
 class ServerDB:
@@ -92,7 +92,9 @@ class ServerDB:
             return f'<User({self.username}, {self.sender}, {self.ip_address}, {self.accepted})>'
 
     def __init__(self):
-        self.engine = create_engine(f'sqlite:///{SERVER_DATABASE}', echo=False, pool_recycle=POOL_RECYCLE,
+        self.engine = create_engine(f'sqlite:///{ROOT_PATH}/server_database/{SERVER_DATABASE}',
+                                    echo=False,
+                                    pool_recycle=POOL_RECYCLE,
                                     connect_args={'check_same_thread': False})
 
         # Создаём таблицы
@@ -198,11 +200,11 @@ class ServerDB:
 
 
 if __name__ == '__main__':
-    test_db = ServerDB('server_base.db3')
-    # test_db.user_registration("client1", '11')
-    test_db.user_login("client1", '192.168.1.4', 8888, '11')
+    server_db = ServerDB()
+    server_db.user_registration("client1", '11')
+    # test_db.user_login("client1", '192.168.1.4', 8888, '11')
     # test_db.user_logout("client2")
     # test_db.user_login("client2", '192.168.1.4', 8888)
     # print(test_db.get_active_users())
     # print(test_db.get_contacts('test1'))
-    print(test_db.get_all_users())
+    print(server_db.get_all_users())

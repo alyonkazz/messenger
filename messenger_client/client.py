@@ -63,8 +63,6 @@ class StartClient(QMainWindow, design.Ui_Dialog_login):
         self.setupUi(self)  # Это нужно для инициализации нашего дизайна
         self.server_host, self.server_port = DEFAULT_HOST, DEFAULT_PORT
 
-        # self.sock = socket(AF_INET, SOCK_STREAM)
-
         self.line_password_2.setHidden(True)
 
         self.button_ok_login.clicked.connect(lambda: self.accept(PRESENCE))
