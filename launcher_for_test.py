@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import sys
 import subprocess
 
@@ -7,7 +9,10 @@ from messenger_client.client_config.settings import DEFAULT_HOST, DEFAULT_PORT
 from messenger_server.server_database.database_server import ServerDB
 from messenger_server.serverapp.errors import ServerError
 
-interpreter = 'py'
+interpreter = 'python3'
+
+if sys.platform.startswith('win'):
+    interpreter = 'py'
 
 
 class LauncherForTest(QMainWindow):
@@ -67,9 +72,13 @@ class LauncherForTest(QMainWindow):
         if self.check_box_server.isChecked():
             creationflags_server = subprocess.CREATE_NEW_CONSOLE
 
-        self.process.append(subprocess.Popen(f'{interpreter} messenger_server/server.py '
-                                             f'--host {self.line_host.text()} '
-                                             f'--port {self.line_port.text()}',
+        self.process.append(subprocess.Popen([f'{interpreter}',
+                                              '../messenger/messenger_server/server.py',
+                                              '--host',
+                                              f'{self.line_host.text()}',
+                                              '--port',
+                                              f'{self.line_port.text()}'
+                                              ],
                                              creationflags=creationflags_server))
 
         for i in range(int(self.line_clients_count.text())):
@@ -80,7 +89,8 @@ class LauncherForTest(QMainWindow):
             except:
                 pass
             finally:
-                self.process.append(subprocess.Popen(f'{interpreter} messenger_client/client.py',
+                self.process.append(subprocess.Popen([f'{interpreter}',
+                                                      '../messenger/messenger_client/client.py'],
                                                      creationflags=creationflags_client))
 
     def close_wins(self):
