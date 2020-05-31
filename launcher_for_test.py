@@ -4,8 +4,8 @@ import subprocess
 from PyQt5.QtWidgets import (QGridLayout, QPushButton, QApplication, QMainWindow, QWidget, QLabel, QLineEdit, QCheckBox)
 
 from messenger_client.client_config.settings import DEFAULT_HOST, DEFAULT_PORT
-from server_database.database_server import ServerDB
-from serverapp.errors import ServerError
+from messenger_server.server_database.database_server import ServerDB
+from messenger_server.serverapp.errors import ServerError
 
 interpreter = 'py'
 
