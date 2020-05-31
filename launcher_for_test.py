@@ -48,11 +48,11 @@ class LauncherForTest(QMainWindow):
         self.line_clients_count = QLineEdit('2')
         grid_layout.addWidget(self.line_clients_count, 3, 2)
 
-        self.check_box_client = QCheckBox('Показать консоль клиента')
-        grid_layout.addWidget(self.check_box_client, 4, 1)
+        #self.check_box_client = QCheckBox('Показать консоль клиента')
+        #grid_layout.addWidget(self.check_box_client, 4, 1)
 
-        self.check_box_server = QCheckBox('Показать консоль сервера')
-        grid_layout.addWidget(self.check_box_server, 5, 1)
+        #self.check_box_server = QCheckBox('Показать консоль сервера')
+        #grid_layout.addWidget(self.check_box_server, 5, 1)
 
         p_button_run_messenger = QPushButton('Подключиться')
         grid_layout.addWidget(p_button_run_messenger, 6, 1)
@@ -66,11 +66,11 @@ class LauncherForTest(QMainWindow):
         creationflags_client = 0
         creationflags_server = 0
 
-        if self.check_box_client.isChecked():
-            creationflags_client = subprocess.CREATE_NEW_CONSOLE
+        #if self.check_box_client.isChecked():
+            #creationflags_client = subprocess.CREATE_NEW_CONSOLE
 
-        if self.check_box_server.isChecked():
-            creationflags_server = subprocess.CREATE_NEW_CONSOLE
+        #if self.check_box_server.isChecked():
+            #creationflags_server = subprocess.CREATE_NEW_CONSOLE
 
         self.process.append(subprocess.Popen([f'{interpreter}',
                                               '../messenger/messenger_server/server.py',
