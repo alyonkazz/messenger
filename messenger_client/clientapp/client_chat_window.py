@@ -8,8 +8,9 @@ import time
 from socket import AF_INET, SOCK_STREAM, socket
 
 from PyQt5 import QtWidgets, QtCore, QtGui
-from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidgetItem, QPushButton
+from PyQt5.QtGui import QFont, QIcon, QKeySequence
+from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidgetItem, QPushButton, QAbstractItemView, QAction, \
+    QShortcut
 
 import clientapp.client_chat_window_ui as desing
 from client_config.utils import send_message, get_message
@@ -114,7 +115,7 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
 
         # поле поиска контактов
         self.list_add_contact.setHidden(True)
-        self.line_find_contact.textChanged.connect(self.search_slot)
+        self.line_search.textChanged.connect(self.search_slot)
 
         # получение сообщений
         client_process = threading.Thread(target=self.message_from_server)
@@ -126,7 +127,6 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
         self.pushButton_bold.clicked.connect(self.actionBold)
         self.pushButton_italic.clicked.connect(self.actionItalic)
         self.pushButton_underlined.clicked.connect(self.actionUnderlined)
-        # self.pushButton_smile.clicked.connect(self.add_smile)
 
         self.action_profile.triggered.connect(self.open_profile)
 
@@ -136,6 +136,59 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
             self.label_avatar.setPixmap(QtGui.QPixmap(os.path.join(STATIC_PATH, 'defaul_avatar.jpg')))
 
         self.add_smiles()
+
+        # поиск сообщений
+        self.label_msg_not_found.setHidden(True)
+        self.shortcut = QShortcut(QKeySequence("Ctrl+F"), self)
+        self.shortcut.activated.connect(self.text_search)
+        self.pushButton_search_up.setHidden(True)
+        self.pushButton_search_down.setHidden(True)
+        self.pushButton_search_cancel.setHidden(True)
+
+    def text_search(self):
+        self.line_search.setPlaceholderText('Поиск в чате')
+        self.line_search.setObjectName("line_find_msg")
+
+        self.pushButton_search_cancel.setHidden(False)
+
+        def find_this():
+            # TODO jump from last to previous found lines
+            msg = self.line_search.text()
+            msg = '.*' + msg + '.*'
+            if msg:
+                print(len(self.list_msgs.findItems(msg, QtCore.Qt.MatchRegExp)))
+                items = self.list_msgs.findItems(msg, QtCore.Qt.MatchRegExp)
+                item_id = -1
+
+                item = items[-1]
+
+                def search_up(item_id):
+                    item_id += 1
+                    print(item_id)
+                    return item_id
+
+                if items:
+                    if len(items) > 1:
+                        self.pushButton_search_up.setHidden(False)
+                        # self.pushButton_search_up.setCheckable(True)
+
+                        print(item_id)
+
+                        self.pushButton_search_down.setHidden(False)
+
+                        item.setSelected(True)
+                        self.list_msgs.scrollToItem(item, QAbstractItemView.PositionAtTop)
+                        self.pushButton_search_up.clicked.connect(lambda: search_up(item_id))
+
+                        # if self.pushButton_search_up.isChecked():
+                        #     print('check')
+
+                # item = self.list_msgs.findItems(msg, QtCore.Qt.MatchRegExp)[0]
+                # if item:
+                #     item.setSelected(True)
+                #     self.list_msgs.scrollToItem(item, QAbstractItemView.PositionAtTop)
+
+        self.line_search.returnPressed.connect(find_this)
 
     def add_smiles(self):
         path_to_smiles = os.path.join(STATIC_PATH, 'smiles')
@@ -234,8 +287,8 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
         # TODO при введении 3х символов делать запрос к базе, от базы получать отсортированный список
         users_list_request(self.sock, self.client_name)
         time.sleep(0.5)
-        if self.line_find_contact.text():
-            user_name = self.line_find_contact.text()
+        if self.line_search.text() and self.line_search.objectName() == "line_search":
+            user_name = self.line_search.text()
             regex = fr"^{user_name}"
             matching_names = [user for user in self.all_users if re.match(regex, user)]
             self.list_add_contact.setHidden(False)
@@ -305,7 +358,6 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
 
 
 def main():
-
     server_host, server_port, client_name = '127.0.0.1', 7777, 'test1'
     sock = socket(AF_INET, SOCK_STREAM)
     database = ClientDB(client_name)
@@ -319,5 +371,3 @@ def main():
 
 if __name__ == '__main__':  # Если мы запускаем файл напрямую, а не импортируем
     main()  # то запускаем функцию main()
-
-
