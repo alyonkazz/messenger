@@ -136,11 +136,11 @@ if __name__ == '__main__':
     # test_db.add_contact('test1')
     # test_db.del_contact('n')
     # test_db.save_message('test1', 'in', 'in_msg')
-    print(test_db.get_history('test1'))
-    print(test_db.get_selection_from_history('test1', '14'))
-    if test_db.get_selection_from_history('test1', '14'):
-        print('we have list')
-    else:
-        print('list? no list')
-    # print(test_db.get_contacts())
+    # print(test_db.get_history('test1'))
+    # print(test_db.get_selection_from_history('test1', '14'))
+    # if test_db.get_selection_from_history('test1', '14'):
+    #     print('we have list')
+    # else:
+    #     print('list? no list')
+    print(test_db.get_contacts())
     # print(test_db.get_avatar())

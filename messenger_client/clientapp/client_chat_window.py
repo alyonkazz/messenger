@@ -8,6 +8,7 @@ import time
 from socket import AF_INET, SOCK_STREAM, socket
 
 from PyQt5 import QtWidgets, QtCore, QtGui
+from PyQt5.QtCore import QItemSelectionModel
 from PyQt5.QtGui import QFont, QIcon, QKeySequence
 from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidgetItem, QPushButton, QAbstractItemView, QAction, \
     QShortcut
@@ -104,11 +105,8 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
 
         # заполняем список контактов и сообщений из базы
         self.fill_contacts()
-
-        # # refresh timer
-        # self.timer_status = QtCore.QTimer()
-        # self.timer_status.timeout.connect(self.item_clicked_event)
-        # self.timer_status.start(5000)  # check every half-second
+        self.list_contacts.setCurrentRow(0)
+        self.item_clicked_event(self.database.get_history(self.list_contacts.currentItem().text()))
 
         # выбор контакта в списке контактов
         self.list_contacts.itemClicked.connect(
