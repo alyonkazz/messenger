@@ -105,6 +105,19 @@ class ClientDB:
             for history_row in query.all()
         ]
 
+    def get_selection_from_history(self, contact, item):
+        query = self.session.query(self.MessagesHistory) \
+                .filter(self.MessagesHistory.message.contains(item)) \
+                .filter_by(contact=contact)
+
+        return [
+            [history_row.contact,
+             history_row.direction,
+             history_row.message,
+             history_row.date.strftime("%Y-%m-%d-%H.%M.%S")]
+            for history_row in query.all()
+        ]
+
     def add_client_info(self, avatar_bytes):
         client_info = self.session.query(self.ClientInfo) \
             .filter_by(id=1).update({'avatar': avatar_bytes})
@@ -112,7 +125,10 @@ class ClientDB:
 
     def get_avatar(self):
         query = self.session.query(self.ClientInfo)
-        return query.all()
+        return [i for i in query.all()]
+
+
+#     [<User(test1, out, 11, 2020-06-01 19:05:19.904699)>, <User(test1, out, 11, 2020-06-02 19:37:48.005759)>]
 
 
 if __name__ == '__main__':
@@ -120,6 +136,11 @@ if __name__ == '__main__':
     # test_db.add_contact('test1')
     # test_db.del_contact('n')
     # test_db.save_message('test1', 'in', 'in_msg')
-    # print(test_db.get_history('test1'))
+    print(test_db.get_history('test1'))
+    print(test_db.get_selection_from_history('test1', '14'))
+    if test_db.get_selection_from_history('test1', '14'):
+        print('we have list')
+    else:
+        print('list? no list')
     # print(test_db.get_contacts())
-    print(test_db.get_avatar())
+    # print(test_db.get_avatar())

@@ -111,7 +111,8 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
         # self.timer_status.start(5000)  # check every half-second
 
         # выбор контакта в списке контактов
-        self.list_contacts.itemClicked.connect(self.item_clicked_event)
+        self.list_contacts.itemClicked.connect(
+            lambda: self.item_clicked_event(self.database.get_history(self.list_contacts.currentItem().text())))
 
         # поле поиска контактов
         self.list_add_contact.setHidden(True)
@@ -140,12 +141,27 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
         # поиск сообщений
         self.label_msg_not_found.setHidden(True)
         self.shortcut = QShortcut(QKeySequence("Ctrl+F"), self)
-        self.shortcut.activated.connect(self.text_search)
+        self.shortcut.activated.connect(self.search_line_in_msgs)
         self.pushButton_search_up.setHidden(True)
         self.pushButton_search_down.setHidden(True)
         self.pushButton_search_cancel.setHidden(True)
+        self.shortcut = QShortcut(QKeySequence("Ctrl+Shift+F"), self)
+        self.shortcut.activated.connect(self.search_all_lines_in_msgs)
 
-    def text_search(self):
+    def search_all_lines_in_msgs(self):
+        self.line_search.setPlaceholderText('Поиск во всём чате')
+        self.line_search.setObjectName("line_find_msg")
+
+        def find_this():
+            search_obj = self.line_search.text()
+            contact = self.list_contacts.currentItem().text()
+
+            if search_obj:
+                self.item_clicked_event(self.database.get_selection_from_history(contact, search_obj))
+
+        self.line_search.returnPressed.connect(find_this)
+
+    def search_line_in_msgs(self):
         self.line_search.setPlaceholderText('Поиск в чате')
         self.line_search.setObjectName("line_find_msg")
 
@@ -153,11 +169,10 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
 
         def find_this():
             # TODO jump from last to previous found lines
-            msg = self.line_search.text()
-            msg = '.*' + msg + '.*'
-            if msg:
-                print(len(self.list_msgs.findItems(msg, QtCore.Qt.MatchRegExp)))
-                items = self.list_msgs.findItems(msg, QtCore.Qt.MatchRegExp)
+            search_obj = self.line_search.text()
+            search_obj = '.*' + search_obj + '.*'
+            if search_obj:
+                items = self.list_msgs.findItems(search_obj, QtCore.Qt.MatchRegExp)
                 item_id = -1
 
                 item = items[-1]
@@ -183,7 +198,8 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
                         # if self.pushButton_search_up.isChecked():
                         #     print('check')
 
-                # item = self.list_msgs.findItems(msg, QtCore.Qt.MatchRegExp)[0]
+                # item = self.list_msgs.findItems
+                # (search_obj, QtCore.Qt.MatchRegExp)[0]
                 # if item:
                 #     item.setSelected(True)
                 #     self.list_msgs.scrollToItem(item, QAbstractItemView.PositionAtTop)
@@ -233,36 +249,37 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
         myFont.setUnderline(True)
         self.text_new_msg.setFont(myFont)
 
-    def item_clicked_event(self):
+    def item_clicked_event(self, user_msgs_history):
         # история сообщений с выбранными пользователем
         # TODO заменить sleep на проверку обработки ответа от сервера
         self.list_msgs.clear()  # очищаем окно чата
-        contact = self.list_contacts.currentItem().text()
-        if contact:
-            user_msgs_history = self.database.get_history(contact)
-            for msg in user_msgs_history:
-                if msg[1] == 'in':
-                    text_color = '#beaed4'
-                    text_align = QtCore.Qt.AlignLeft
-                    text_direction = 'от'
-                elif msg[1] == 'out':
-                    text_color = 'yellow'
-                    text_align = QtCore.Qt.AlignRight
-                    text_direction = 'для'
 
-                msg_info = QListWidgetItem(f'{msg[3]} Сообщение {text_direction} {msg[0]}:')
-                msg_text = QListWidgetItem(f'{msg[2]}')
-                font = QtGui.QFont()
-                font.setBold(True)
-                font.setWeight(75)
-                msg_info.setFont(font)
-                msg_text.setFont(font)
-                msg_info.setTextAlignment(text_align)
-                msg_text.setTextAlignment(text_align)
-                msg_info.setBackground(QtGui.QColor(text_color))
-                msg_text.setBackground(QtGui.QColor(text_color))
-                self.list_msgs.addItem(msg_info)
-                self.list_msgs.addItem(msg_text)
+        if not user_msgs_history:
+            self.list_msgs.addItem('Сообщений нет')
+
+        for msg in user_msgs_history:
+            if msg[1] == 'in':
+                text_color = '#beaed4'
+                text_align = QtCore.Qt.AlignLeft
+                text_direction = 'от'
+            elif msg[1] == 'out':
+                text_color = 'yellow'
+                text_align = QtCore.Qt.AlignRight
+                text_direction = 'для'
+
+            msg_info = QListWidgetItem(f'{msg[3]} Сообщение {text_direction} {msg[0]}:')
+            msg_text = QListWidgetItem(f'{msg[2]}')
+            font = QtGui.QFont()
+            font.setBold(True)
+            font.setWeight(75)
+            msg_info.setFont(font)
+            msg_text.setFont(font)
+            msg_info.setTextAlignment(text_align)
+            msg_text.setTextAlignment(text_align)
+            msg_info.setBackground(QtGui.QColor(text_color))
+            msg_text.setBackground(QtGui.QColor(text_color))
+            self.list_msgs.addItem(msg_info)
+            self.list_msgs.addItem(msg_text)
 
             time.sleep(0.01)
             self.list_msgs.scrollToBottom()
@@ -278,7 +295,7 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
         if text_message:
             create_message(self.sock, self.database, self.client_name, contact, text_message)
             self.text_new_msg.clear()
-            self.item_clicked_event()
+            self.item_clicked_event(self.database.get_history(self.list_contacts.currentItem().text()))
         else:
             log.warning('Attempting to send an empty message')
 
@@ -348,8 +365,7 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
                     log.info(msg)
                     if self.list_contacts.currentItem() \
                             and self.list_contacts.currentItem().text() == message[SENDER]:
-                        self.item_clicked_event()
-
+                        self.item_clicked_event(self.database.get_history(self.list_contacts.currentItem().text()))
 
                 else:
                     log.error(f'Invalid message received from server: {message}')
