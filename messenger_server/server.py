@@ -17,7 +17,7 @@ from serverapp.metaclss_server import ServerVerifier
 from server_config.settings import MAX_CONNECTION, TIMEOUT, \
     MESSAGE, ACTION, PRESENCE, TIME, USER, MESSAGE_TEXT, ACCOUNT_NAME, RESPONSE, ERROR, SENDER, DESTINATION, EXIT, \
     GET_CONTACTS, ALL_USERS, ADD_CONTACT, REMOVE_CONTACT, SERVER, CONTACTS, GET_ALL_USERS, PASSWORD, REGISTRATION, \
-    DEFAULT_HOST, DEFAULT_PORT, MESSAGE_ID, MESSAGE_DATETIME
+    DEFAULT_HOST, DEFAULT_PORT, MESSAGE_ID, MESSAGE_DATETIME, GET_MESSAGES_HISTORY
 from serverapp.server_gui import UsersStatistic
 
 
@@ -125,6 +125,16 @@ class Server(threading.Thread, metaclass=ServerVerifier):
                 send_message(client_sock, answer)
                 self.all_clients.remove(client_sock)
                 client_sock.close()
+            return
+
+        # ------------------------ Разбор запроса GET_MESSAGES_HISTORY ------------------------ #
+        elif (ACTION and TIME and SENDER) in message \
+                and message[ACTION] == GET_MESSAGES_HISTORY:
+            # answer = {
+            #     RESPONSE: 202,
+            #     CONTACTS: contacts
+            # }
+            # send_message(client_sock, answer)
             return
 
         # ------------------------ Разбор запроса списка контактов пользователя ------------------------ #

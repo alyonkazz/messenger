@@ -11,7 +11,9 @@ from client_database.database_client import ClientDB
 from clientapp.decorators import func_to_log
 from client_logs.client_log_config import CLIENT_LOG as log
 from client_config.settings import DEFAULT_HOST, DEFAULT_PORT, ACTION, PRESENCE, TIME, USER, SENDER, RESPONSE, ERROR, \
-    GET_CONTACTS, CONTACTS, PASSWORD, REGISTRATION
+    GET_CONTACTS, CONTACTS, PASSWORD, REGISTRATION, GET_MESSAGES_HISTORY
+
+
 # TODO добавить в меню настройку хоста и порта
 
 
@@ -37,9 +39,9 @@ def presence_request(sock, client_name, password, request):
 
 
 @func_to_log
-def contacts_list_request(sock, client_name):
+def contacts_list_request(sock, client_name, request):
     message = {
-        ACTION: GET_CONTACTS,
+        ACTION: request,
         TIME: time.time(),
         SENDER: client_name
     }
@@ -86,8 +88,10 @@ class StartClient(QMainWindow, design.Ui_Dialog_login):
             if ans[RESPONSE] == 200:
 
                 # запрашиваем список контактов у сервера и добавляем их в свою базу данных
-                contacts = contacts_list_request(self.sock, self.client_name)
+                contacts = contacts_list_request(self.sock, self.client_name, GET_CONTACTS)
                 database.fill_contacts(contacts)
+
+                # msgs_history = contacts_list_request(self.sock, self.client_name, GET_MESSAGES_HISTORY)
 
                 self.start_chat(database)
             else:

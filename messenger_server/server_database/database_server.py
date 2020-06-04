@@ -234,3 +234,4 @@ if __name__ == '__main__':
     # print(test_db.get_active_users())
     # print(test_db.get_contacts('test1'))
     print(server_db.get_all_users())
+    server_db.save_message('from_', 'to', 'message', 1, datetime.datetime.now())

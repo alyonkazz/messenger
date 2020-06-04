@@ -88,7 +88,10 @@ class ClientDB:
     def save_message(self, contact, direction, message):
         new_message = self.MessagesHistory(contact, direction, message, datetime.datetime.now())
         self.session.add(new_message)
+        self.session.flush()
         self.session.commit()
+
+        return new_message.id
 
     # Функция возвращающяя контакты
     def get_contacts(self):

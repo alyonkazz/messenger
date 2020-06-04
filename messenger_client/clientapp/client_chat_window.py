@@ -21,26 +21,27 @@ from clientapp.decorators import func_to_log
 from client_logs.client_log_config import CLIENT_LOG as log
 from client_config.settings import ACTION, TIME, ACCOUNT_NAME, MESSAGE, \
     MESSAGE_TEXT, SENDER, DESTINATION, RESPONSE, ADD_CONTACT, REMOVE_CONTACT, \
-    SERVER, GET_ALL_USERS, ALL_USERS, ROOT_PATH, STATIC_PATH
+    SERVER, GET_ALL_USERS, ALL_USERS, STATIC_PATH, MESSAGE_ID
 
 
 @func_to_log
 def create_message(sock, database, acc_name, to_user, message):
     """ Отправка сообщения пользователю """
+    msg_id = database.save_message(to_user, 'out', message)
+    log.debug(f'Save message to {to_user}  to database')
+
     message = {
         ACTION: MESSAGE,
         TIME: time.time(),
         SENDER: acc_name,
         DESTINATION: to_user,
-        MESSAGE_TEXT: message
+        MESSAGE_TEXT: message,
+        MESSAGE_ID: msg_id
     }
     log.debug(f'Create message to {to_user}: {message}')
 
     send_message(sock, message)
     log.debug(f'Send message to {to_user}')
-
-    database.save_message(message[DESTINATION], 'out', message[MESSAGE_TEXT])
-    log.debug(f'Save message to {to_user}  to database')
 
 
 @func_to_log
