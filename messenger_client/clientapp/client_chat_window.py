@@ -105,8 +105,11 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
 
         # заполняем список контактов и сообщений из базы
         self.fill_contacts()
-        self.list_contacts.setCurrentRow(0)
-        self.item_clicked_event(self.database.get_history(self.list_contacts.currentItem().text()))
+        try:
+            self.list_contacts.setCurrentRow(0)
+            self.item_clicked_event(self.database.get_history(self.list_contacts.currentItem().text()))
+        except:
+            pass
 
         # выбор контакта в списке контактов
         self.list_contacts.itemClicked.connect(
