@@ -364,7 +364,10 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
                         and message[ACTION] == MESSAGE \
                         and message[DESTINATION] == self.client_name:
                     msg = f'\nGet message from user {message[SENDER]}: {message[MESSAGE_TEXT]}'
-                    self.database.save_message(message[SENDER], 'in', message[MESSAGE_TEXT])
+                    self.database.save_message(message[SENDER],
+                                               'in',
+                                               message[MESSAGE_TEXT],
+                                               datetime.datetime.strptime(message[TIME], '%Y-%m-%d %H:%M:%S.%f'))
                     log.info(msg)
                     if self.list_contacts.currentItem() \
                             and self.list_contacts.currentItem().text() == message[SENDER]:

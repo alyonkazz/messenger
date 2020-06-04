@@ -85,8 +85,8 @@ class ClientDB:
         self.session.commit()
 
     # Функция, сохраняющяя сообщения
-    def save_message(self, contact, direction, message):
-        new_message = self.MessagesHistory(contact, direction, message, datetime.datetime.now())
+    def save_message(self, contact, direction, message, date=None):
+        new_message = self.MessagesHistory(contact, direction, message, date)
         self.session.add(new_message)
         self.session.flush()
         self.session.commit()

@@ -198,7 +198,6 @@ class Server(threading.Thread, metaclass=ServerVerifier):
         elif (ACTION and TIME and MESSAGE_TEXT and DESTINATION and SENDER) in message \
                 and message[ACTION] == MESSAGE:
             datetime_ = datetime.datetime.now()
-            print('serv ', datetime_)
 
             self.database.save_message(
                 message[SENDER],
