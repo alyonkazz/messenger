@@ -17,7 +17,7 @@ from serverapp.metaclss_server import ServerVerifier
 from server_config.settings import MAX_CONNECTION, TIMEOUT, \
     MESSAGE, ACTION, PRESENCE, TIME, USER, MESSAGE_TEXT, ACCOUNT_NAME, RESPONSE, ERROR, SENDER, DESTINATION, EXIT, \
     GET_CONTACTS, ALL_USERS, ADD_CONTACT, REMOVE_CONTACT, SERVER, CONTACTS, GET_ALL_USERS, PASSWORD, REGISTRATION, \
-    DEFAULT_HOST, DEFAULT_PORT
+    DEFAULT_HOST, DEFAULT_PORT, MESSAGE_ID, MESSAGE_DATETIME
 from serverapp.server_gui import UsersStatistic
 
 
@@ -187,7 +187,27 @@ class Server(threading.Thread, metaclass=ServerVerifier):
         # ------------------------ Разбор отправленного сообщения ------------------------ #
         elif (ACTION and TIME and MESSAGE_TEXT and DESTINATION and SENDER) in message \
                 and message[ACTION] == MESSAGE:
+            datetime_ = datetime.datetime.now()
+            message[TIME] = f'{datetime_}'
             self.all_messages.append(message)
+
+            self.database.save_message(
+                message[SENDER],
+                message[DESTINATION],
+                message[MESSAGE_TEXT],
+                message[MESSAGE_ID],
+                datetime_
+            )
+            log.SERVER_LOG.info(f'msg id:{message[MESSAGE_ID]} from {message[SENDER]} save to db')
+            answer = {
+                RESPONSE: 200,
+                SENDER: SERVER,
+                ACTION: MESSAGE,
+                MESSAGE_ID: message[MESSAGE_ID],
+                MESSAGE_DATETIME: datetime_
+            }
+            send_message(client_sock, answer)
+            log.SERVER_LOG.debug('send 200 & datetime: ', answer)
             return
 
         # ------------------------ Разбор сообщения о выходе ------------------------ #
