@@ -198,8 +198,7 @@ class Server(threading.Thread, metaclass=ServerVerifier):
         elif (ACTION and TIME and MESSAGE_TEXT and DESTINATION and SENDER) in message \
                 and message[ACTION] == MESSAGE:
             datetime_ = datetime.datetime.now()
-            message[TIME] = f'{datetime_}'
-            self.all_messages.append(message)
+            print('serv ', datetime_)
 
             self.database.save_message(
                 message[SENDER],
@@ -209,15 +208,20 @@ class Server(threading.Thread, metaclass=ServerVerifier):
                 datetime_
             )
             log.SERVER_LOG.info(f'msg id:{message[MESSAGE_ID]} from {message[SENDER]} save to db')
+
             answer = {
                 RESPONSE: 200,
                 SENDER: SERVER,
                 ACTION: MESSAGE,
                 MESSAGE_ID: message[MESSAGE_ID],
-                MESSAGE_DATETIME: datetime_
+                MESSAGE_DATETIME: f'{datetime_}'
             }
             send_message(client_sock, answer)
             log.SERVER_LOG.debug('send 200 & datetime: ', answer)
+
+            message[TIME] = f'{datetime_}'
+            self.all_messages.append(message)
+
             return
 
         # ------------------------ Разбор сообщения о выходе ------------------------ #

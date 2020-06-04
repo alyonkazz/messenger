@@ -1,5 +1,5 @@
-import asyncio
-import functools
+import datetime
+import os
 import os
 import re
 import sys  # sys нужен для передачи argv в QApplication
@@ -8,20 +8,18 @@ import time
 from socket import AF_INET, SOCK_STREAM, socket
 
 from PyQt5 import QtWidgets, QtCore, QtGui
-from PyQt5.QtCore import QItemSelectionModel
-from PyQt5.QtGui import QFont, QIcon, QKeySequence
-from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidgetItem, QPushButton, QAbstractItemView, QAction, \
-    QShortcut
+from PyQt5.QtGui import QFont, QKeySequence
+from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidgetItem, QPushButton, QAbstractItemView, QShortcut
 
 import clientapp.client_chat_window_ui as desing
-from client_config.utils import send_message, get_message
-from clientapp.client_profile import ClientProfile
-from client_database.database_client import ClientDB
-from clientapp.decorators import func_to_log
-from client_logs.client_log_config import CLIENT_LOG as log
 from client_config.settings import ACTION, TIME, ACCOUNT_NAME, MESSAGE, \
     MESSAGE_TEXT, SENDER, DESTINATION, RESPONSE, ADD_CONTACT, REMOVE_CONTACT, \
-    SERVER, GET_ALL_USERS, ALL_USERS, STATIC_PATH, MESSAGE_ID
+    SERVER, GET_ALL_USERS, ALL_USERS, STATIC_PATH, MESSAGE_ID, MESSAGE_DATETIME
+from client_config.utils import send_message, get_message
+from client_database.database_client import ClientDB
+from client_logs.client_log_config import CLIENT_LOG as log
+from clientapp.client_profile import ClientProfile
+from clientapp.decorators import func_to_log
 
 
 @func_to_log
@@ -260,11 +258,10 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
             self.list_msgs.addItem('Сообщений нет')
 
         for msg in user_msgs_history:
-            if msg[1] == 'in':
-                text_color = '#beaed4'
-                text_align = QtCore.Qt.AlignLeft
-                text_direction = 'от'
-            elif msg[1] == 'out':
+            text_color = '#beaed4'
+            text_align = QtCore.Qt.AlignLeft
+            text_direction = 'от'
+            if msg[1] == 'out':
                 text_color = 'yellow'
                 text_align = QtCore.Qt.AlignRight
                 text_direction = 'для'
@@ -347,7 +344,7 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
             message = get_message(self.sock)
             try:
                 # ------------------------ Разбор сообщений от сервера ------------------------ #
-                if (RESPONSE and SENDER and MESSAGE_TEXT) in message \
+                if (RESPONSE and SENDER) in message \
                         and message[SENDER] == SERVER:
                     if message[ACTION] == GET_ALL_USERS and message[RESPONSE] == 200:
                         ClientApp.all_users = message[ALL_USERS]
@@ -357,6 +354,10 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
                     elif message[ACTION] == REMOVE_CONTACT and message[RESPONSE] == 200:
                         self.database.del_contact(message[ACCOUNT_NAME])
                         self.fill_contacts()
+                    elif message[ACTION] == MESSAGE and message[RESPONSE] == 200:
+                        self.database.save_message_add_date(message[MESSAGE_ID],
+                                                            datetime.datetime.strptime(message[MESSAGE_DATETIME],
+                                                                                       '%Y-%m-%d %H:%M:%S.%f'))
 
                 # ------------------------ Разбор сообщений от других пользователей ------------------------ #
                 elif (ACTION and SENDER and DESTINATION and MESSAGE_TEXT) in message \

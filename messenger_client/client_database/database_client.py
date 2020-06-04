@@ -93,6 +93,11 @@ class ClientDB:
 
         return new_message.id
 
+    def save_message_add_date(self, msg_id, date):
+        # rows = Stat.query.filter_by(user_id=u_id).update({'user_id': 1})
+        query = self.session.query(self.MessagesHistory).filter_by(id=msg_id).update({'date': date})
+        self.session.commit()
+
     # Функция возвращающяя контакты
     def get_contacts(self):
         return [contact[0] for contact in self.session.query(self.Contacts.username).all()]
@@ -131,11 +136,8 @@ class ClientDB:
         return [i for i in query.all()]
 
 
-#     [<User(test1, out, 11, 2020-06-01 19:05:19.904699)>, <User(test1, out, 11, 2020-06-02 19:37:48.005759)>]
-
-
 if __name__ == '__main__':
-    test_db = ClientDB('t2')
+    test_db = ClientDB('test1')
     # test_db.add_contact('test1')
     # test_db.del_contact('n')
     # test_db.save_message('test1', 'in', 'in_msg')
@@ -145,5 +147,7 @@ if __name__ == '__main__':
     #     print('we have list')
     # else:
     #     print('list? no list')
-    print(test_db.get_contacts())
+    # print(test_db.get_contacts())
     # print(test_db.get_avatar())
+    test_db.save_message_add_date(1, datetime.datetime.strptime(f'2020-06-04 18:48:41.660113',
+                                                                '%Y-%m-%d %H:%M:%S.%f'))
