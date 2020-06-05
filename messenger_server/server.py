@@ -8,6 +8,7 @@ from socket import AF_INET, SOCK_STREAM, socket
 from PyQt5.QtWidgets import QApplication
 
 import server_logs.server_log_config as log
+from client_config.settings import MESSAGE_HISTORY
 from server_config.utils import send_message, get_message
 from serverapp.errors import ServerError
 from server_database.database_server import ServerDB
@@ -16,8 +17,8 @@ from serverapp.descrptrs_server import GetPort
 from serverapp.metaclss_server import ServerVerifier
 from server_config.settings import MAX_CONNECTION, TIMEOUT, \
     MESSAGE, ACTION, PRESENCE, TIME, USER, MESSAGE_TEXT, ACCOUNT_NAME, RESPONSE, ERROR, SENDER, DESTINATION, EXIT, \
-    GET_CONTACTS, ALL_USERS, ADD_CONTACT, REMOVE_CONTACT, SERVER, CONTACTS, GET_ALL_USERS, PASSWORD, REGISTRATION, \
-    DEFAULT_HOST, DEFAULT_PORT, MESSAGE_ID, MESSAGE_DATETIME, GET_MESSAGES_HISTORY
+    GET_USERS_PACKAGE, ALL_USERS, ADD_CONTACT, REMOVE_CONTACT, SERVER, CONTACTS, GET_ALL_USERS, PASSWORD, REGISTRATION, \
+    DEFAULT_HOST, DEFAULT_PORT, MESSAGE_ID, MESSAGE_DATETIME
 from serverapp.server_gui import UsersStatistic
 
 
@@ -127,27 +128,22 @@ class Server(threading.Thread, metaclass=ServerVerifier):
                 client_sock.close()
             return
 
-        # ------------------------ Разбор запроса GET_MESSAGES_HISTORY ------------------------ #
-        elif (ACTION and TIME and SENDER) in message \
-                and message[ACTION] == GET_MESSAGES_HISTORY:
-            # answer = {
-            #     RESPONSE: 202,
-            #     CONTACTS: contacts
-            # }
-            # send_message(client_sock, answer)
-            return
-
         # ------------------------ Разбор запроса списка контактов пользователя ------------------------ #
         elif (ACTION and TIME and SENDER) in message \
-                and message[ACTION] == GET_CONTACTS:
+                and message[ACTION] == GET_USERS_PACKAGE:
             contacts = {contact: 'online' for contact in self.database.get_contacts(message[SENDER])
                         if contact in list(self.active_users.keys())}
             offline_contacts = {contact: 'offline' for contact in self.database.get_contacts(message[SENDER])
                                 if contact not in list(self.active_users.keys())}
             contacts.update(offline_contacts)
+
+            messages_history = self.database.get_messages_history(message[SENDER])
+            print(messages_history)
+
             answer = {
                 RESPONSE: 202,
-                CONTACTS: contacts
+                CONTACTS: contacts,
+                MESSAGE_HISTORY: messages_history
             }
             send_message(client_sock, answer)
             return

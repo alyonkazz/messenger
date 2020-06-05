@@ -72,6 +72,15 @@ class ClientDB:
         for contact in contacts:
             self.add_contact(contact)
 
+    def fill_messages_history(self, msgs):
+        for msg in msgs:
+            contact, direction, message, date = msg
+            date = datetime.datetime.strptime(date, "%Y-%m-%d-%H.%M.%S")
+
+            print(contact, direction, message, date)
+            # 2020-06-04-21.30.05
+            self.save_message(contact, direction, message, date)
+
     # Функция добавления нового контакта
     def add_contact(self, contact):
         if not self.session.query(self.Contacts).filter_by(username=contact).count():
@@ -149,5 +158,7 @@ if __name__ == '__main__':
     #     print('list? no list')
     # print(test_db.get_contacts())
     # print(test_db.get_avatar())
-    test_db.save_message_add_date(1, datetime.datetime.strptime(f'2020-06-04 18:48:41.660113',
-                                                                '%Y-%m-%d %H:%M:%S.%f'))
+    # # test_db.save_message_add_date(1, datetime.datetime.strptime(f'2020-06-04 18:48:41.660113',
+    #                                                             '%Y-%m-%d %H:%M:%S.%f'))
+    test_db.save_message('t2', 'test1', 'sdf', datetime.datetime.strptime(f'2020-06-04-21.30.05',
+                                                                "%Y-%m-%d-%H.%M.%S"))

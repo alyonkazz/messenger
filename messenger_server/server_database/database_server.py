@@ -17,7 +17,7 @@ import sys
 import datetime
 import hashlib
 
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateTime, Text, Boolean
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateTime, Text, Boolean, or_
 # Для использования декларативного стиля необходима функция declarative_base
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -224,6 +224,22 @@ class ServerDB:
         self.session.add(new_msg)
         self.session.commit()
 
+    def get_messages_history(self, contact):
+        msgs_history = self.session.query(self.MessagesHistory).filter(
+            or_(self.MessagesHistory.from_ == contact,
+                self.MessagesHistory.to == contact,
+                self.MessagesHistory.from_ == COMMON_CHAT,
+                self.MessagesHistory.to == COMMON_CHAT),
+        )
+
+        return [
+            [history_row.from_,
+             history_row.to,
+             history_row.message,
+             history_row.date.strftime("%Y-%m-%d-%H.%M.%S")]
+            for history_row in msgs_history.all()
+        ]
+
 
 if __name__ == '__main__':
     server_db = ServerDB()
@@ -233,5 +249,6 @@ if __name__ == '__main__':
     # test_db.user_login("client2", '192.168.1.4', 8888)
     # print(test_db.get_active_users())
     # print(test_db.get_contacts('test1'))
-    print(server_db.get_all_users())
-    server_db.save_message('from_', 'to', 'message', 1, datetime.datetime.now())
+    # print(server_db.get_all_users())
+    # server_db.save_message('from_', 'to', 'message', 1, datetime.datetime.now())
+    print(server_db.get_messages_history('t2'))

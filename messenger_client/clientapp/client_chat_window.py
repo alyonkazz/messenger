@@ -294,7 +294,7 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
         if text_message:
             create_message(self.sock, self.database, self.client_name, contact, text_message)
             self.text_new_msg.clear()
-            self.item_clicked_event(self.database.get_history(self.list_contacts.currentItem().text()))
+            # self.item_clicked_event(self.database.get_history(self.list_contacts.currentItem().text()))
         else:
             log.warning('Attempting to send an empty message')
 
@@ -358,6 +358,8 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
                         self.database.save_message_add_date(message[MESSAGE_ID],
                                                             datetime.datetime.strptime(message[MESSAGE_DATETIME],
                                                                                        '%Y-%m-%d %H:%M:%S.%f'))
+                        self.item_clicked_event(self.database.get_history(self.list_contacts.currentItem().text()))
+
 
                 # ------------------------ Разбор сообщений от других пользователей ------------------------ #
                 elif (ACTION and SENDER and DESTINATION and MESSAGE_TEXT) in message \
