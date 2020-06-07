@@ -1,7 +1,5 @@
 import argparse
-import configparser
 import datetime
-import os
 import select
 import sys
 import threading
@@ -12,7 +10,7 @@ from PyQt5.QtWidgets import QApplication
 import server_logs.server_log_config as log
 from server_config.utils import send_message, get_message
 from serverapp.errors import ServerError
-from serverapp.database_server import ServerDB
+from server_database.database_server import ServerDB
 from serverapp.decorators import func_to_log, login_required
 from serverapp.descrptrs_server import GetPort
 from serverapp.metaclss_server import ServerVerifier

@@ -27,6 +27,8 @@ class ClientProfile(QMainWindow, desing.Ui_MainWindow):
         else:
             self.label_avatar.setPixmap(QtGui.QPixmap(os.path.join(STATIC_PATH, 'defaul_avatar.jpg')))
 
+        self.label_username.setText(self.parent.client_name)
+
     def edit_avatar(self):
         self.change_image = ChangeAvatar(self)
         self.change_image.show()

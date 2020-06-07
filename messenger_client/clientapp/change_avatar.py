@@ -1,3 +1,4 @@
+import asyncio
 import os
 import sys
 
@@ -166,23 +167,38 @@ class ChangeAvatar(QMainWindow):
     def crop_image(self):
         self.image = self.image.crop((0, 0, 150, 150))
 
-    def save_image(self):
+    async def save_image_to_dir(self):
         # TODO обновление аватара во всех окнах (переписать?)
         name = self.parent.parent.client_name
-        new_img_name = os.path.join(STATIC_PATH, name + '.png')
-        self.img_tmp.save(new_img_name, 'PNG')
+        self.new_img_name = os.path.join(STATIC_PATH, name + '.png')
+        self.img_tmp.save(self.new_img_name, 'PNG')
 
+        await asyncio.sleep(1)
+
+        self.parent.label_avatar.setPixmap(QPixmap(self.new_img_name))
+        self.parent.parent.label_avatar.setPixmap(QPixmap(self.new_img_name))
+        self.close()
+
+    async def save_image_to_db(self):
         ba = QByteArray()
         buff = QBuffer(ba)
         buff.open(QIODevice.WriteOnly)
         ok = self.pixmap.save(buff, "PNG")
         assert ok
         pixmap_bytes = ba.data()
+
         self.parent.parent.database.add_client_info(pixmap_bytes)
 
-        self.parent.label_avatar.setPixmap(QPixmap(new_img_name))
-        self.parent.parent.label_avatar.setPixmap(QPixmap(new_img_name))
-        self.close()
+        await asyncio.sleep(1)
+
+    def save_image(self):
+        ioloop = asyncio.get_event_loop()
+        tasks = [
+            ioloop.create_task(self.save_image_to_dir()),
+            ioloop.create_task(self.save_image_to_db()),
+        ]
+        ioloop.run_until_complete(asyncio.wait(tasks))
+        ioloop.close()
 
 
 def main():

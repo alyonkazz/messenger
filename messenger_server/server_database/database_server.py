@@ -13,6 +13,7 @@ c) списокконтактов (составляется на основан�
 * id_владельца;
 * id_клиента.
 """
+import sys
 import datetime
 import hashlib
 
@@ -21,8 +22,9 @@ from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateT
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
+sys.path.append('../messenger/messenger_server/')
 from serverapp.errors import ServerError
-from server_config.settings import POOL_RECYCLE, SERVER_DATABASE
+from server_config.settings import POOL_RECYCLE, SERVER_DATABASE, ROOT_PATH
 
 
 class ServerDB:
@@ -92,7 +94,9 @@ class ServerDB:
             return f'<User({self.username}, {self.sender}, {self.ip_address}, {self.accepted})>'
 
     def __init__(self):
-        self.engine = create_engine(f'sqlite:///{SERVER_DATABASE}', echo=False, pool_recycle=POOL_RECYCLE,
+        self.engine = create_engine(f'sqlite:///{ROOT_PATH}/server_database/{SERVER_DATABASE}',
+                                    echo=False,
+                                    pool_recycle=POOL_RECYCLE,
                                     connect_args={'check_same_thread': False})
 
         # Создаём таблицы
@@ -106,7 +110,7 @@ class ServerDB:
         check_user = self.session.query(self.AllUsers).filter_by(username=name)
         # если логин пользователя используется, создаем ошибку
         if check_user.count():
-            raise ServerError('Пользователь с таким логином уже существует')
+            raise ServerError(f'Пользователь с логином "{name}" уже существует')
 
         # если нет, добавляем его в список пользователей
         else:
@@ -142,7 +146,7 @@ class ServerDB:
 
         # если нет, возвращаем ошибку
         else:
-            raise ServerError('Пользователь с таким логином не существует. Зарегистрируйтесь')
+            raise ServerError(f'Пользователь с логином "{name}" не существует. Зарегистрируйтесь')
 
         # --------------------- проверка наличия пользователя в списке пользователей // конец --------------------- #
 
@@ -198,11 +202,11 @@ class ServerDB:
 
 
 if __name__ == '__main__':
-    test_db = ServerDB('server_base.db3')
-    # test_db.user_registration("client1", '11')
-    test_db.user_login("client1", '192.168.1.4', 8888, '11')
+    server_db = ServerDB()
+    server_db.user_registration("client1", '11')
+    # test_db.user_login("client1", '192.168.1.4', 8888, '11')
     # test_db.user_logout("client2")
     # test_db.user_login("client2", '192.168.1.4', 8888)
     # print(test_db.get_active_users())
     # print(test_db.get_contacts('test1'))
-    print(test_db.get_all_users())
+    print(server_db.get_all_users())
