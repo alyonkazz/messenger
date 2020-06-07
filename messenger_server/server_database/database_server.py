@@ -17,14 +17,14 @@ import sys
 import datetime
 import hashlib
 
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateTime
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateTime, Text, Boolean, or_
 # Для использования декларативного стиля необходима функция declarative_base
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 sys.path.append('../messenger/messenger_server/')
 from serverapp.errors import ServerError
-from server_config.settings import POOL_RECYCLE, SERVER_DATABASE, ROOT_PATH
+from server_config.settings import POOL_RECYCLE, SERVER_DATABASE, ROOT_PATH, COMMON_CHAT, COMMON_CHAT_PWD
 
 
 class ServerDB:
@@ -52,13 +52,15 @@ class ServerDB:
         id = Column(Integer, primary_key=True)
         username = Column(ForeignKey('All_users.id'))
         contact = Column(String)
+        last_msg = Column(DateTime)
 
-        def __init__(self, username, contact):
+        def __init__(self, username, contact, last_msg):
             self.username = username
             self.contact = contact
+            self.last_msg = last_msg
 
         def __repr__(self):
-            return f'<User({self.username}, {self.contact})>'
+            return f'<User({self.username}, {self.contact}, {self.last_msg})>'
 
     class LoginHistory(base):
         """ История входов пользоватлей """
@@ -78,20 +80,26 @@ class ServerDB:
         def __repr__(self):
             return f'<User({self.username}, {self.login_time}, {self.ip_address}, {self.port})>'
 
-    class UsersHistory(base):
-        __tablename__ = 'Users_history'
+    class MessagesHistory(base):
+        __tablename__ = 'Messages_history'
         id = Column(Integer, primary_key=True)
-        username = Column(ForeignKey('All_users.id'))
-        sender = Column(Integer)
-        accepted = Column(Integer)
+        from_ = Column(String)
+        to = Column(String)
+        message = Column(Text)
+        message_id = Column(Integer)
+        date = Column(DateTime)
+        accepted = Column(Boolean)
 
-        def __init__(self, username, sender, accepted):
-            self.username = username
-            self.sender = sender
+        def __init__(self, contact, direction, message, message_id, date, accepted):
+            self.from_ = contact
+            self.to = direction
+            self.message = message
+            self.message_id = message_id
+            self.date = date
             self.accepted = accepted
 
         def __repr__(self):
-            return f'<User({self.username}, {self.sender}, {self.ip_address}, {self.accepted})>'
+            return f'<User({self.from_}, {self.to}, {self.message}, {self.message_id}, {self.date}, {self.accepted})>'
 
     def __init__(self):
         self.engine = create_engine(f'sqlite:///{ROOT_PATH}/server_database/{SERVER_DATABASE}',
@@ -104,6 +112,13 @@ class ServerDB:
 
         session = sessionmaker(bind=self.engine)
         self.session = session()
+
+        self.add_common_chat_when_creating_db()
+
+    def add_common_chat_when_creating_db(self):
+        if not self.session.query(self.AllUsers).filter_by(username=COMMON_CHAT).count():
+            self.user_registration(COMMON_CHAT, COMMON_CHAT_PWD)
+            self.session.commit()
 
     def user_registration(self, name, password):
 
@@ -122,6 +137,9 @@ class ServerDB:
 
             user = self.AllUsers(name, datetime.datetime.now(), sha_pass_str)
             self.session.add(user)
+            self.session.commit()
+
+            self.add_contact(name, COMMON_CHAT)
             self.session.commit()
 
     def user_login(self, name, ip_address, port, password):
@@ -171,12 +189,13 @@ class ServerDB:
         contact = self.session.query(self.AllUsers).filter_by(username=contact).first()
 
         # Проверяем что не дубль и что контакт может существовать (полю пользователь мы доверяем)
-        if not contact or self.session.query(self.UsersContacts).filter_by(username=user.id,
-                                                                           contact=contact.id).count():
+        if not contact \
+                or self.session.query(self.UsersContacts).filter_by(username=user.id,
+                                                                    contact=contact.id).count():
             return
 
         # Создаём объект и заносим его в базу
-        new_contact = self.UsersContacts(user.id, contact.id)
+        new_contact = self.UsersContacts(user.id, contact.id, datetime.datetime.now())
         self.session.add(new_contact)
         self.session.commit()
 
@@ -200,13 +219,36 @@ class ServerDB:
 
         return [contact[1] for contact in contacts.all()]
 
+    def save_message(self, from_, to, message, message_id, date, accepted=False):
+        new_msg = self.MessagesHistory(from_, to, message, message_id, date, accepted)
+        self.session.add(new_msg)
+        self.session.commit()
+
+    def get_messages_history(self, contact):
+        msgs_history = self.session.query(self.MessagesHistory).filter(
+            or_(self.MessagesHistory.from_ == contact,
+                self.MessagesHistory.to == contact,
+                self.MessagesHistory.from_ == COMMON_CHAT,
+                self.MessagesHistory.to == COMMON_CHAT),
+        )
+
+        return [
+            [history_row.from_,
+             history_row.to,
+             history_row.message,
+             history_row.date.strftime("%Y-%m-%d-%H.%M.%S")]
+            for history_row in msgs_history.all()
+        ]
+
 
 if __name__ == '__main__':
     server_db = ServerDB()
-    server_db.user_registration("client1", '11')
+    # server_db.user_registration("22222", '11')
     # test_db.user_login("client1", '192.168.1.4', 8888, '11')
     # test_db.user_logout("client2")
     # test_db.user_login("client2", '192.168.1.4', 8888)
     # print(test_db.get_active_users())
     # print(test_db.get_contacts('test1'))
-    print(server_db.get_all_users())
+    # print(server_db.get_all_users())
+    # server_db.save_message('from_', 'to', 'message', 1, datetime.datetime.now())
+    print(server_db.get_messages_history('t2'))

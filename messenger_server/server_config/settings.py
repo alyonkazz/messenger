@@ -39,8 +39,11 @@ RESPONSE = 'response'
 ERROR = 'error'
 MESSAGE = 'message'
 MESSAGE_TEXT = 'message_text'
+MESSAGE_ID = 'message_id'
+MESSAGE_DATETIME = 'message_datetime'
 EXIT = 'exit'
-GET_CONTACTS = 'get_contacts'
+GET_MESSAGES_HISTORY = 'get_messages_history'
+GET_USERS_PACKAGE = 'get_users_package'
 GET_ALL_USERS = 'get_all_users'
 ADD_CONTACT = 'add_contact'
 REMOVE_CONTACT = 'remove_contact'
@@ -55,3 +58,6 @@ LOGGING_LEVEL = logging.DEBUG
 """ server database """
 SERVER_DATABASE = 'server_base.db3'
 POOL_RECYCLE = 3600
+
+COMMON_CHAT = "Общий чат"
+COMMON_CHAT_PWD = "11"

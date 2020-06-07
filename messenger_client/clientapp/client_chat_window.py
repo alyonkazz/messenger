@@ -1,5 +1,5 @@
-import asyncio
-import functools
+import datetime
+import os
 import os
 import re
 import sys  # sys нужен для передачи argv в QApplication
@@ -8,37 +8,38 @@ import time
 from socket import AF_INET, SOCK_STREAM, socket
 
 from PyQt5 import QtWidgets, QtCore, QtGui
-from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidgetItem, QPushButton
+from PyQt5.QtGui import QFont, QKeySequence
+from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidgetItem, QPushButton, QAbstractItemView, QShortcut
 
 import clientapp.client_chat_window_ui as desing
-from client_config.utils import send_message, get_message
-from clientapp.client_profile import ClientProfile
-from client_database.database_client import ClientDB
-from clientapp.decorators import func_to_log
-from client_logs.client_log_config import CLIENT_LOG as log
 from client_config.settings import ACTION, TIME, ACCOUNT_NAME, MESSAGE, \
     MESSAGE_TEXT, SENDER, DESTINATION, RESPONSE, ADD_CONTACT, REMOVE_CONTACT, \
-    SERVER, GET_ALL_USERS, ALL_USERS, ROOT_PATH, STATIC_PATH
+    SERVER, GET_ALL_USERS, ALL_USERS, STATIC_PATH, MESSAGE_ID, MESSAGE_DATETIME
+from client_config.utils import send_message, get_message
+from client_database.database_client import ClientDB
+from client_logs.client_log_config import CLIENT_LOG as log
+from clientapp.client_profile import ClientProfile
+from clientapp.decorators import func_to_log
 
 
 @func_to_log
 def create_message(sock, database, acc_name, to_user, message):
     """ Отправка сообщения пользователю """
+    msg_id = database.save_message(to_user, 'out', message)
+    log.debug(f'Save message to {to_user}  to database')
+
     message = {
         ACTION: MESSAGE,
         TIME: time.time(),
         SENDER: acc_name,
         DESTINATION: to_user,
-        MESSAGE_TEXT: message
+        MESSAGE_TEXT: message,
+        MESSAGE_ID: msg_id
     }
     log.debug(f'Create message to {to_user}: {message}')
 
     send_message(sock, message)
     log.debug(f'Send message to {to_user}')
-
-    database.save_message(message[DESTINATION], 'out', message[MESSAGE_TEXT])
-    log.debug(f'Save message to {to_user}  to database')
 
 
 @func_to_log
@@ -103,18 +104,19 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
 
         # заполняем список контактов и сообщений из базы
         self.fill_contacts()
-
-        # # refresh timer
-        # self.timer_status = QtCore.QTimer()
-        # self.timer_status.timeout.connect(self.item_clicked_event)
-        # self.timer_status.start(5000)  # check every half-second
+        try:
+            self.list_contacts.setCurrentRow(0)
+            self.item_clicked_event(self.database.get_history(self.list_contacts.currentItem().text()))
+        except:
+            pass
 
         # выбор контакта в списке контактов
-        self.list_contacts.itemClicked.connect(self.item_clicked_event)
+        self.list_contacts.itemClicked.connect(
+            lambda: self.item_clicked_event(self.database.get_history(self.list_contacts.currentItem().text())))
 
         # поле поиска контактов
         self.list_add_contact.setHidden(True)
-        self.line_find_contact.textChanged.connect(self.search_slot)
+        self.line_search.textChanged.connect(self.search_slot)
 
         # получение сообщений
         client_process = threading.Thread(target=self.message_from_server)
@@ -126,7 +128,6 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
         self.pushButton_bold.clicked.connect(self.actionBold)
         self.pushButton_italic.clicked.connect(self.actionItalic)
         self.pushButton_underlined.clicked.connect(self.actionUnderlined)
-        # self.pushButton_smile.clicked.connect(self.add_smile)
 
         self.action_profile.triggered.connect(self.open_profile)
 
@@ -136,6 +137,74 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
             self.label_avatar.setPixmap(QtGui.QPixmap(os.path.join(STATIC_PATH, 'defaul_avatar.jpg')))
 
         self.add_smiles()
+
+        # поиск сообщений
+        self.label_msg_not_found.setHidden(True)
+        self.shortcut = QShortcut(QKeySequence("Ctrl+F"), self)
+        self.shortcut.activated.connect(self.search_line_in_msgs)
+        self.pushButton_search_up.setHidden(True)
+        self.pushButton_search_down.setHidden(True)
+        self.pushButton_search_cancel.setHidden(True)
+        self.shortcut = QShortcut(QKeySequence("Ctrl+Shift+F"), self)
+        self.shortcut.activated.connect(self.search_all_lines_in_msgs)
+
+    def search_all_lines_in_msgs(self):
+        self.line_search.setPlaceholderText('Поиск во всём чате')
+        self.line_search.setObjectName("line_find_msg")
+
+        def find_this():
+            search_obj = self.line_search.text()
+            contact = self.list_contacts.currentItem().text()
+
+            if search_obj:
+                self.item_clicked_event(self.database.get_selection_from_history(contact, search_obj))
+
+        self.line_search.returnPressed.connect(find_this)
+
+    def search_line_in_msgs(self):
+        self.line_search.setPlaceholderText('Поиск в чате')
+        self.line_search.setObjectName("line_find_msg")
+
+        self.pushButton_search_cancel.setHidden(False)
+
+        def find_this():
+            # TODO jump from last to previous found lines
+            search_obj = self.line_search.text()
+            search_obj = '.*' + search_obj + '.*'
+            if search_obj:
+                items = self.list_msgs.findItems(search_obj, QtCore.Qt.MatchRegExp)
+                item_id = -1
+
+                item = items[-1]
+
+                def search_up(item_id):
+                    item_id += 1
+                    print(item_id)
+                    return item_id
+
+                if items:
+                    if len(items) > 1:
+                        self.pushButton_search_up.setHidden(False)
+                        # self.pushButton_search_up.setCheckable(True)
+
+                        print(item_id)
+
+                        self.pushButton_search_down.setHidden(False)
+
+                        item.setSelected(True)
+                        self.list_msgs.scrollToItem(item, QAbstractItemView.PositionAtTop)
+                        self.pushButton_search_up.clicked.connect(lambda: search_up(item_id))
+
+                        # if self.pushButton_search_up.isChecked():
+                        #     print('check')
+
+                # item = self.list_msgs.findItems
+                # (search_obj, QtCore.Qt.MatchRegExp)[0]
+                # if item:
+                #     item.setSelected(True)
+                #     self.list_msgs.scrollToItem(item, QAbstractItemView.PositionAtTop)
+
+        self.line_search.returnPressed.connect(find_this)
 
     def add_smiles(self):
         path_to_smiles = os.path.join(STATIC_PATH, 'smiles')
@@ -180,36 +249,36 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
         myFont.setUnderline(True)
         self.text_new_msg.setFont(myFont)
 
-    def item_clicked_event(self):
+    def item_clicked_event(self, user_msgs_history):
         # история сообщений с выбранными пользователем
         # TODO заменить sleep на проверку обработки ответа от сервера
         self.list_msgs.clear()  # очищаем окно чата
-        contact = self.list_contacts.currentItem().text()
-        if contact:
-            user_msgs_history = self.database.get_history(contact)
-            for msg in user_msgs_history:
-                if msg[1] == 'in':
-                    text_color = '#beaed4'
-                    text_align = QtCore.Qt.AlignLeft
-                    text_direction = 'от'
-                elif msg[1] == 'out':
-                    text_color = 'yellow'
-                    text_align = QtCore.Qt.AlignRight
-                    text_direction = 'для'
 
-                msg_info = QListWidgetItem(f'{msg[3]} Сообщение {text_direction} {msg[0]}:')
-                msg_text = QListWidgetItem(f'{msg[2]}')
-                font = QtGui.QFont()
-                font.setBold(True)
-                font.setWeight(75)
-                msg_info.setFont(font)
-                msg_text.setFont(font)
-                msg_info.setTextAlignment(text_align)
-                msg_text.setTextAlignment(text_align)
-                msg_info.setBackground(QtGui.QColor(text_color))
-                msg_text.setBackground(QtGui.QColor(text_color))
-                self.list_msgs.addItem(msg_info)
-                self.list_msgs.addItem(msg_text)
+        if not user_msgs_history:
+            self.list_msgs.addItem('Сообщений нет')
+
+        for msg in user_msgs_history:
+            text_color = '#beaed4'
+            text_align = QtCore.Qt.AlignLeft
+            text_direction = 'от'
+            if msg[1] == 'out':
+                text_color = 'yellow'
+                text_align = QtCore.Qt.AlignRight
+                text_direction = 'для'
+
+            msg_info = QListWidgetItem(f'{msg[3]} Сообщение {text_direction} {msg[0]}:')
+            msg_text = QListWidgetItem(f'{msg[2]}')
+            font = QtGui.QFont()
+            font.setBold(True)
+            font.setWeight(75)
+            msg_info.setFont(font)
+            msg_text.setFont(font)
+            msg_info.setTextAlignment(text_align)
+            msg_text.setTextAlignment(text_align)
+            msg_info.setBackground(QtGui.QColor(text_color))
+            msg_text.setBackground(QtGui.QColor(text_color))
+            self.list_msgs.addItem(msg_info)
+            self.list_msgs.addItem(msg_text)
 
             time.sleep(0.01)
             self.list_msgs.scrollToBottom()
@@ -225,7 +294,7 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
         if text_message:
             create_message(self.sock, self.database, self.client_name, contact, text_message)
             self.text_new_msg.clear()
-            self.item_clicked_event()
+            # self.item_clicked_event(self.database.get_history(self.list_contacts.currentItem().text()))
         else:
             log.warning('Attempting to send an empty message')
 
@@ -234,8 +303,8 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
         # TODO при введении 3х символов делать запрос к базе, от базы получать отсортированный список
         users_list_request(self.sock, self.client_name)
         time.sleep(0.5)
-        if self.line_find_contact.text():
-            user_name = self.line_find_contact.text()
+        if self.line_search.text() and self.line_search.objectName() == "line_search":
+            user_name = self.line_search.text()
             regex = fr"^{user_name}"
             matching_names = [user for user in self.all_users if re.match(regex, user)]
             self.list_add_contact.setHidden(False)
@@ -275,7 +344,7 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
             message = get_message(self.sock)
             try:
                 # ------------------------ Разбор сообщений от сервера ------------------------ #
-                if (RESPONSE and SENDER and MESSAGE_TEXT) in message \
+                if (RESPONSE and SENDER) in message \
                         and message[SENDER] == SERVER:
                     if message[ACTION] == GET_ALL_USERS and message[RESPONSE] == 200:
                         ClientApp.all_users = message[ALL_USERS]
@@ -285,18 +354,26 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
                     elif message[ACTION] == REMOVE_CONTACT and message[RESPONSE] == 200:
                         self.database.del_contact(message[ACCOUNT_NAME])
                         self.fill_contacts()
+                    elif message[ACTION] == MESSAGE and message[RESPONSE] == 200:
+                        self.database.save_message_add_date(message[MESSAGE_ID],
+                                                            datetime.datetime.strptime(message[MESSAGE_DATETIME],
+                                                                                       '%Y-%m-%d %H:%M:%S.%f'))
+                        self.item_clicked_event(self.database.get_history(self.list_contacts.currentItem().text()))
+
 
                 # ------------------------ Разбор сообщений от других пользователей ------------------------ #
                 elif (ACTION and SENDER and DESTINATION and MESSAGE_TEXT) in message \
                         and message[ACTION] == MESSAGE \
                         and message[DESTINATION] == self.client_name:
                     msg = f'\nGet message from user {message[SENDER]}: {message[MESSAGE_TEXT]}'
-                    self.database.save_message(message[SENDER], 'in', message[MESSAGE_TEXT])
+                    self.database.save_message(message[SENDER],
+                                               'in',
+                                               message[MESSAGE_TEXT],
+                                               datetime.datetime.strptime(message[TIME], '%Y-%m-%d %H:%M:%S.%f'))
                     log.info(msg)
                     if self.list_contacts.currentItem() \
                             and self.list_contacts.currentItem().text() == message[SENDER]:
-                        self.item_clicked_event()
-
+                        self.item_clicked_event(self.database.get_history(self.list_contacts.currentItem().text()))
 
                 else:
                     log.error(f'Invalid message received from server: {message}')
@@ -305,7 +382,6 @@ class ClientApp(QMainWindow, desing.Ui_MainWindow):
 
 
 def main():
-
     server_host, server_port, client_name = '127.0.0.1', 7777, 'test1'
     sock = socket(AF_INET, SOCK_STREAM)
     database = ClientDB(client_name)
@@ -319,5 +395,3 @@ def main():
 
 if __name__ == '__main__':  # Если мы запускаем файл напрямую, а не импортируем
     main()  # то запускаем функцию main()
-
-

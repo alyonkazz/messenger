@@ -72,6 +72,15 @@ class ClientDB:
         for contact in contacts:
             self.add_contact(contact)
 
+    def fill_messages_history(self, msgs):
+        for msg in msgs:
+            contact, direction, message, date = msg
+            date = datetime.datetime.strptime(date, "%Y-%m-%d-%H.%M.%S")
+
+            print(contact, direction, message, date)
+            # 2020-06-04-21.30.05
+            self.save_message(contact, direction, message, date)
+
     # Функция добавления нового контакта
     def add_contact(self, contact):
         if not self.session.query(self.Contacts).filter_by(username=contact).count():
@@ -85,9 +94,17 @@ class ClientDB:
         self.session.commit()
 
     # Функция, сохраняющяя сообщения
-    def save_message(self, contact, direction, message):
-        new_message = self.MessagesHistory(contact, direction, message, datetime.datetime.now())
+    def save_message(self, contact, direction, message, date=None):
+        new_message = self.MessagesHistory(contact, direction, message, date)
         self.session.add(new_message)
+        self.session.flush()
+        self.session.commit()
+
+        return new_message.id
+
+    def save_message_add_date(self, msg_id, date):
+        # rows = Stat.query.filter_by(user_id=u_id).update({'user_id': 1})
+        query = self.session.query(self.MessagesHistory).filter_by(id=msg_id).update({'date': date})
         self.session.commit()
 
     # Функция возвращающяя контакты
@@ -105,6 +122,19 @@ class ClientDB:
             for history_row in query.all()
         ]
 
+    def get_selection_from_history(self, contact, item):
+        query = self.session.query(self.MessagesHistory) \
+                .filter(self.MessagesHistory.message.contains(item)) \
+                .filter_by(contact=contact)
+
+        return [
+            [history_row.contact,
+             history_row.direction,
+             history_row.message,
+             history_row.date.strftime("%Y-%m-%d-%H.%M.%S")]
+            for history_row in query.all()
+        ]
+
     def add_client_info(self, avatar_bytes):
         client_info = self.session.query(self.ClientInfo) \
             .filter_by(id=1).update({'avatar': avatar_bytes})
@@ -112,14 +142,23 @@ class ClientDB:
 
     def get_avatar(self):
         query = self.session.query(self.ClientInfo)
-        return query.all()
+        return [i for i in query.all()]
 
 
 if __name__ == '__main__':
-    test_db = ClientDB('t2')
+    test_db = ClientDB('test1')
     # test_db.add_contact('test1')
     # test_db.del_contact('n')
     # test_db.save_message('test1', 'in', 'in_msg')
     # print(test_db.get_history('test1'))
+    # print(test_db.get_selection_from_history('test1', '14'))
+    # if test_db.get_selection_from_history('test1', '14'):
+    #     print('we have list')
+    # else:
+    #     print('list? no list')
     # print(test_db.get_contacts())
-    print(test_db.get_avatar())
+    # print(test_db.get_avatar())
+    # # test_db.save_message_add_date(1, datetime.datetime.strptime(f'2020-06-04 18:48:41.660113',
+    #                                                             '%Y-%m-%d %H:%M:%S.%f'))
+    test_db.save_message('t2', 'test1', 'sdf', datetime.datetime.strptime(f'2020-06-04-21.30.05',
+                                                                "%Y-%m-%d-%H.%M.%S"))

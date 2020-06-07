@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'messenger_client/tmp/client_chat_window_ui.ui'
+# Form implementation generated from reading ui file 'tmp\client_chat_window_ui.ui'
 #
 # Created by: PyQt5 UI code generator 5.14.2
 #
@@ -28,10 +28,10 @@ class Ui_MainWindow(object):
         self.list_add_contact = QtWidgets.QListWidget(self.centralwidget)
         self.list_add_contact.setGeometry(QtCore.QRect(10, 420, 251, 71))
         self.list_add_contact.setObjectName("list_add_contact")
-        self.line_find_contact = QtWidgets.QLineEdit(self.centralwidget)
-        self.line_find_contact.setGeometry(QtCore.QRect(10, 380, 251, 31))
-        self.line_find_contact.setText("")
-        self.line_find_contact.setObjectName("line_find_contact")
+        self.line_search = QtWidgets.QLineEdit(self.centralwidget)
+        self.line_search.setGeometry(QtCore.QRect(10, 380, 251, 31))
+        self.line_search.setText("")
+        self.line_search.setObjectName("line_search")
         self.list_contacts = QtWidgets.QListWidget(self.centralwidget)
         self.list_contacts.setGeometry(QtCore.QRect(10, 90, 251, 281))
         self.list_contacts.setObjectName("list_contacts")
@@ -54,6 +54,20 @@ class Ui_MainWindow(object):
         self.label_avatar.setGeometry(QtCore.QRect(10, 10, 71, 71))
         self.label_avatar.setScaledContents(True)
         self.label_avatar.setObjectName("label_avatar")
+        self.label_msg_not_found = QtWidgets.QLabel(self.centralwidget)
+        self.label_msg_not_found.setGeometry(QtCore.QRect(10, 430, 251, 21))
+        self.label_msg_not_found.setInputMethodHints(QtCore.Qt.ImhNone)
+        self.label_msg_not_found.setObjectName("label_msg_not_found")
+        self.pushButton_search_up = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_search_up.setGeometry(QtCore.QRect(200, 380, 21, 23))
+        self.pushButton_search_up.setCheckable(True)
+        self.pushButton_search_up.setObjectName("pushButton_search_up")
+        self.pushButton_search_down = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_search_down.setGeometry(QtCore.QRect(220, 380, 21, 23))
+        self.pushButton_search_down.setObjectName("pushButton_search_down")
+        self.pushButton_search_cancel = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_search_cancel.setGeometry(QtCore.QRect(240, 380, 21, 23))
+        self.pushButton_search_cancel.setObjectName("pushButton_search_cancel")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 686, 21))
@@ -78,9 +92,13 @@ class Ui_MainWindow(object):
         self.pushButton_underlined.setText(_translate("MainWindow", "подчеркивание"))
         self.pushButton_italic.setText(_translate("MainWindow", "курсив"))
         self.list_add_contact.setToolTip(_translate("MainWindow", "Для добавления пользователя дважды кликните по его имени"))
-        self.line_find_contact.setPlaceholderText(_translate("MainWindow", "Введите имя пользователя"))
+        self.line_search.setPlaceholderText(_translate("MainWindow", "Поиск контакта"))
         self.pushButton_bold.setText(_translate("MainWindow", "полужирный"))
         self.pushButton_send_msg.setText(_translate("MainWindow", "Отправить"))
         self.label_avatar.setText(_translate("MainWindow", "аватар"))
+        self.label_msg_not_found.setText(_translate("MainWindow", "Сообщение не найдено"))
+        self.pushButton_search_up.setText(_translate("MainWindow", "up"))
+        self.pushButton_search_down.setText(_translate("MainWindow", "dw"))
+        self.pushButton_search_cancel.setText(_translate("MainWindow", "X"))
         self.menuMenu.setTitle(_translate("MainWindow", "Меню"))
         self.action_profile.setText(_translate("MainWindow", "Профиль"))
