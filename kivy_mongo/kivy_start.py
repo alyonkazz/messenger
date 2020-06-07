@@ -8,7 +8,7 @@ from kivy.uix.button import Button
 from kivy.uix.image import Image as kivyImage
 from kivy.core.image import Image as kivyCoreImage
 
-from kivy_mongo.mongo import MongoDB, HOST_DB, PORT_DB
+from mongo import MongoDB, HOST_DB, PORT_DB
 
 
 class MainApp(BoxLayout):
