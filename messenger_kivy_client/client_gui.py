@@ -9,6 +9,7 @@ from kivy.app import App
 # in a way that allows easy flipping from
 # one page to another using borders.
 from kivy.lang import Builder
+from kivy.metrics import dp
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.carousel import Carousel
@@ -19,7 +20,11 @@ from kivy.uix.pagelayout import PageLayout
 # creates the button in kivy
 # if not imported shows the error
 from kivy.uix.button import Button
+from kivy.uix.recycleview import RecycleView
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.core.window import Window
+
+from client_contacts import RV
 
 
 class SettingsImageButton(ButtonBehavior, Image):
@@ -51,6 +56,8 @@ class ClientSummaryInfo(BoxLayout):
     def __init__(self, **kwargs):
         super(ClientSummaryInfo, self).__init__(**kwargs)
         self.orientation = "horizontal"
+        self.size = (Window.width, 100)
+        self.size_hint = (None, None)
 
         self.add_widget(SettingsImageButton(source='static/settings.png',
                                             size=(50, 50),
@@ -59,7 +66,7 @@ class ClientSummaryInfo(BoxLayout):
                                             pos_hint={'center_x': .7, 'center_y': .5}
                                             ))
 
-        self.avatar = Image(source='default_avatar.jpg',
+        self.avatar = Image(source='static/default_avatar.jpg',
                             size_hint=(None, None),
                             )
         self.add_widget(self.avatar)
@@ -80,32 +87,53 @@ class ClientContacts(BoxLayout):
 
         self.add_widget(ClientSummaryInfo())
 
-        self.image = Image(source='default_avatar.jpg', size=(100, 10), size_hint=(.7, 2))
-        self.add_widget(self.image)
+        self.client_list = ['cl1', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3',
+                            'cl1', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3']
 
-        self.label = Label(text='khlkhh')
-        self.add_widget(self.label)
+        # self.clients = RecycleView()
+        # # self.clients_layout = BoxLayout(orientation='vertical')
+        # # self.clients.add_widget(self.clients_layout)
+        # self.clients.data = [{'text': str(x)} for x in range(20)]
+        # self.add_widget(self.clients)
 
-        b1 = Button(size_hint=(.2, .2),
-                    pos_hint={'center_x': .7, 'center_y': .5},
-                    text="pos_hint")
+        self.add_widget(RV(self.client_list))
 
-        # creating button
-        # size of button is 20 % by hight and 50 % width of layout
-        b2 = Button(size_hint=(.5, .2),
-                    text="size_hint")
+        # for client in self.client_list:
+        #     btn_client = Button(text=client,
+        #                         # size_hint=(1, None),
+        #                         size_hint_y=None,
+        #                         height=dp(40)
+        #                         )
+        #     self.clients_layout.add_widget(btn_client)
 
-        # creating button
-        # size of button is 20 % by hight and width of layout
-        # position is 200, 200 from bottom left
-        b3 = Button(size_hint=(.2, .2),
-                    pos=(200, 200),
-                    text="pos")
-
-        # adding button to widget
-        self.add_widget(b1)
-        self.add_widget(b2)
-        self.add_widget(b3)
+        # self.image = Image(source='default_avatar.jpg',
+        #                    size=(100, 10),
+        #                    size_hint=(.7, 2))
+        # self.add_widget(self.image)
+        #
+        # self.label = Label(text='khlkhh')
+        # self.add_widget(self.label)
+        #
+        # b1 = Button(size_hint=(.2, .2),
+        #             pos_hint={'center_x': .7, 'center_y': .5},
+        #             text="pos_hint")
+        #
+        # # creating button
+        # # size of button is 20 % by hight and 50 % width of layout
+        # b2 = Button(size_hint=(.5, .2),
+        #             text="size_hint")
+        #
+        # # creating button
+        # # size of button is 20 % by hight and width of layout
+        # # position is 200, 200 from bottom left
+        # b3 = Button(size_hint=(.2, .2),
+        #             pos=(200, 200),
+        #             text="pos")
+        #
+        # # adding button to widget
+        # self.add_widget(b1)
+        # self.add_widget(b2)
+        # self.add_widget(b3)
 
 
 class PageMenuContacts(Screen):
