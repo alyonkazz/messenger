@@ -8,6 +8,7 @@ from kivy.uix.recycleboxlayout import RecycleBoxLayout
 from kivy.uix.behaviors import FocusBehavior
 from kivy.uix.recycleview.layout import LayoutSelectionBehavior
 
+
 Builder.load_string('''
 <SelectableLabel>:
     # Draw a background to indicate selection
@@ -17,7 +18,7 @@ Builder.load_string('''
         Rectangle:
             pos: self.pos
             size: self.size
-<RV>:
+<RVClientContacts>:
     viewclass: 'SelectableLabel'
     SelectableRecycleBoxLayout:
         default_size: None, dp(56)
@@ -27,6 +28,7 @@ Builder.load_string('''
         orientation: 'vertical'
         multiselect: True
         touch_multiselect: False
+        
 ''')
 
 
@@ -44,6 +46,7 @@ class SelectableLabel(RecycleDataViewBehavior, Label):
     def refresh_view_attrs(self, rv, index, data):
         """ Catch and handle the view changes """
         self.index = index
+        self.nsme = rv.data[index]
         return super(SelectableLabel, self).refresh_view_attrs(
             rv, index, data)
 
@@ -59,19 +62,26 @@ class SelectableLabel(RecycleDataViewBehavior, Label):
         self.selected = is_selected
         if is_selected:
             print("selection changed to {0}".format(rv.data[index]))
+            print(self.text)
+
         else:
             print("selection removed for {0}".format(rv.data[index]))
 
+    def get_text(self):
+        return self.text
 
-class RV(RecycleView):
+
+class RVClientContacts(RecycleView):
     def __init__(self, client_list, **kwargs):
-        super(RV, self).__init__(**kwargs)
+        super(RVClientContacts, self).__init__(**kwargs)
         self.data = [{'text': str(x)} for x in client_list]
 
 
 class TestApp(App):
     def build(self):
-        return RV()
+        client_list = ['cl1', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3',
+                       'cl1', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3']
+        return RVClientContacts(client_list)
 
 
 if __name__ == '__main__':

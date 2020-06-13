@@ -3,7 +3,7 @@
 
 ### Клонируем репозиторий ###
 
-git clone https://github.com/alyonkazz/messenger.git -b lesson5-6
+git clone https://github.com/alyonkazz/messenger.git -b kivy_client
 
 
 ### По необходимости: ###

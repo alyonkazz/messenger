@@ -1,6 +1,8 @@
 # base Class of your App inherits from the App class.
 # app:always refers to the instance of your application
+import ast
 import sys
+from datetime import datetime
 
 from kivy.app import App
 
@@ -13,6 +15,7 @@ from kivy.metrics import dp
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.carousel import Carousel
+from kivy.uix.gridlayout import GridLayout
 from kivy.uix.image import Image
 from kivy.uix.label import Label
 from kivy.uix.pagelayout import PageLayout
@@ -20,11 +23,16 @@ from kivy.uix.pagelayout import PageLayout
 # creates the button in kivy
 # if not imported shows the error
 from kivy.uix.button import Button
+from kivy.uix.recycleboxlayout import RecycleBoxLayout
 from kivy.uix.recycleview import RecycleView
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
+from kivy.uix.scrollview import ScrollView
 
-from client_contacts import RV
+from client_contacts import RVClientContacts, SelectableLabel
+
+
+selected_id = ''
 
 
 class SettingsImageButton(ButtonBehavior, Image):
@@ -42,8 +50,8 @@ class ClientSettings(Screen):
 
         # TODO add settings
 
-        self.tmp_lable = Label(text='Здесь будут настройки')
-        box.add_widget(self.tmp_lable)
+        self.tmp_label = Label(text='Здесь будут настройки')
+        box.add_widget(self.tmp_label)
 
         # TODO add carousel/swipe
         self.btn_back = Button(text='Назад',
@@ -56,8 +64,9 @@ class ClientSummaryInfo(BoxLayout):
     def __init__(self, **kwargs):
         super(ClientSummaryInfo, self).__init__(**kwargs)
         self.orientation = "horizontal"
-        self.size = (Window.width, 100)
+        self.size = (Window.width, 120)
         self.size_hint = (None, None)
+        self.padding = (0, 10)
 
         self.add_widget(SettingsImageButton(source='static/settings.png',
                                             size=(50, 50),
@@ -80,60 +89,9 @@ class ClientSummaryInfo(BoxLayout):
         self.add_widget(self.status)
 
 
-class ClientContacts(BoxLayout):
+class ClientContacts(RecycleView):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.orientation = "vertical"
-
-        self.add_widget(ClientSummaryInfo())
-
-        self.client_list = ['cl1', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3',
-                            'cl1', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3']
-
-        # self.clients = RecycleView()
-        # # self.clients_layout = BoxLayout(orientation='vertical')
-        # # self.clients.add_widget(self.clients_layout)
-        # self.clients.data = [{'text': str(x)} for x in range(20)]
-        # self.add_widget(self.clients)
-
-        self.add_widget(RV(self.client_list))
-
-        # for client in self.client_list:
-        #     btn_client = Button(text=client,
-        #                         # size_hint=(1, None),
-        #                         size_hint_y=None,
-        #                         height=dp(40)
-        #                         )
-        #     self.clients_layout.add_widget(btn_client)
-
-        # self.image = Image(source='default_avatar.jpg',
-        #                    size=(100, 10),
-        #                    size_hint=(.7, 2))
-        # self.add_widget(self.image)
-        #
-        # self.label = Label(text='khlkhh')
-        # self.add_widget(self.label)
-        #
-        # b1 = Button(size_hint=(.2, .2),
-        #             pos_hint={'center_x': .7, 'center_y': .5},
-        #             text="pos_hint")
-        #
-        # # creating button
-        # # size of button is 20 % by hight and 50 % width of layout
-        # b2 = Button(size_hint=(.5, .2),
-        #             text="size_hint")
-        #
-        # # creating button
-        # # size of button is 20 % by hight and width of layout
-        # # position is 200, 200 from bottom left
-        # b3 = Button(size_hint=(.2, .2),
-        #             pos=(200, 200),
-        #             text="pos")
-        #
-        # # adding button to widget
-        # self.add_widget(b1)
-        # self.add_widget(b2)
-        # self.add_widget(b3)
 
 
 class PageMenuContacts(Screen):
@@ -147,24 +105,56 @@ class PageMenuContacts(Screen):
         # which is either from a parent or sibling class.
         super(PageMenuContacts, self).__init__(**kwargs)
 
-        self.layout = PageLayout()
+        self.layout = BoxLayout()
 
-        # creating buttons on diffent pages
-        page1 = ClientContacts()
+        # page 1
+        page1_box = BoxLayout(orientation="vertical")
+        self.layout.add_widget(page1_box)
 
-        btn2 = Button(text='Page 2')
+        page1_box.add_widget(ClientSummaryInfo())
 
-        btn3 = Button(text='Page 3')
+        self.client_list = ['cl1', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3',
+                            'cl1', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3']
 
-        # adding button on the screen
-        # by add widget method
-        self.layout.add_widget(page1)
+        self.client_contacts = RecycleView()
+        page1_box.add_widget(self.client_contacts)
 
-        self.layout.add_widget(btn2)
+        self.client_contacts_layout = GridLayout(cols=1, size_hint_y=None)
+        self.client_contacts_layout.bind(minimum_height=self.client_contacts_layout.setter('height'),
+                                         )
+        self.client_contacts.add_widget(self.client_contacts_layout)
 
-        self.layout.add_widget(btn3)
+        for i in self.client_list:
+            self.client_contacts_layout.add_widget(ClientButton(text=str(i),
+                                                                id=str(i),
+                                                                size_hint_y=None,
+                                                                height=dp(40),
+                                                                # on_press=
+                                                                ))
+
+
+
 
         self.add_widget(self.layout)
+
+
+class SelectedButton(Button):
+    def __init__(self, selected_id_,**kwargs):
+        super().__init__(**kwargs)
+
+        # self.size_hint_y = None
+        self.text = selected_id_
+
+
+class ClientButton(Button):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        # self.size_hint_y = None
+        # self.height = 40
+
+    def on_press(self):
+        print(self.text)
 
 
 def set_screen(name_screen):
