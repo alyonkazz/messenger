@@ -1,0 +1,210 @@
+2020-06-08 17:20:17,834 DEBUG: decorators.py: Function arg_parser called from __main__
+2020-06-08 17:20:17,893 DEBUG: decorators.py: Function start_gui called from __main__
+2020-06-08 17:20:24,473 INFO: server.py: Connecting ('127.0.0.1', 64913) started
+2020-06-08 17:20:24,474 DEBUG: server.py: Clients: [<socket.socket fd=1152, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 64913)>]
+2020-06-08 17:20:24,474 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:20:24,474 INFO: server.py: Client ('127.0.0.1', 64913) disconnected.
+2020-06-08 17:22:19,344 DEBUG: decorators.py: Function arg_parser called from __main__
+2020-06-08 17:22:19,360 DEBUG: decorators.py: Function start_gui called from __main__
+2020-06-08 17:22:21,970 INFO: server.py: Connecting ('127.0.0.1', 64984) started
+2020-06-08 17:22:21,970 DEBUG: server.py: Clients: [<socket.socket fd=1260, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 64984)>]
+2020-06-08 17:22:22,471 DEBUG: server.py: Clients: [<socket.socket fd=1260, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 64984)>]
+2020-06-08 17:22:22,471 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:22:22,472 INFO: server.py: Client ('127.0.0.1', 64984) disconnected.
+2020-06-08 17:27:51,783 INFO: server.py: Connecting ('127.0.0.1', 65270) started
+2020-06-08 17:27:51,783 DEBUG: server.py: Clients: [<socket.socket fd=832, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 65270)>]
+2020-06-08 17:27:52,284 DEBUG: server.py: Clients: [<socket.socket fd=832, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 65270)>]
+2020-06-08 17:27:52,285 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:27:52,285 INFO: server.py: Client ('127.0.0.1', 65270) disconnected.
+2020-06-08 17:28:07,550 INFO: server.py: Connecting ('127.0.0.1', 65286) started
+2020-06-08 17:28:07,550 DEBUG: server.py: Clients: [<socket.socket fd=1260, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 65286)>]
+2020-06-08 17:28:08,051 DEBUG: server.py: Clients: [<socket.socket fd=1260, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 65286)>]
+2020-06-08 17:28:08,051 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:28:08,052 INFO: server.py: Client ('127.0.0.1', 65286) disconnected.
+2020-06-08 17:29:02,389 INFO: server.py: Connecting ('127.0.0.1', 65327) started
+2020-06-08 17:29:02,389 DEBUG: server.py: Clients: [<socket.socket fd=880, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 65327)>]
+2020-06-08 17:29:02,889 DEBUG: server.py: Clients: [<socket.socket fd=880, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 65327)>]
+2020-06-08 17:29:02,890 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:29:02,890 INFO: server.py: Client ('127.0.0.1', 65327) disconnected.
+2020-06-08 17:32:11,294 DEBUG: decorators.py: Function arg_parser called from __main__
+2020-06-08 17:32:11,311 DEBUG: decorators.py: Function start_gui called from __main__
+2020-06-08 17:32:12,486 INFO: server.py: Connecting ('127.0.0.1', 65439) started
+2020-06-08 17:32:12,486 DEBUG: server.py: Clients: [<socket.socket fd=1116, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 65439)>]
+2020-06-08 17:32:12,486 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:32:12,486 INFO: server.py: Client ('127.0.0.1', 65439) disconnected.
+2020-06-08 17:32:17,945 INFO: server.py: Connecting ('127.0.0.1', 65445) started
+2020-06-08 17:32:17,945 DEBUG: server.py: Clients: [<socket.socket fd=1276, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 65445)>]
+2020-06-08 17:32:18,446 DEBUG: server.py: Clients: [<socket.socket fd=1276, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 65445)>]
+2020-06-08 17:32:18,447 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:32:18,447 INFO: server.py: Client ('127.0.0.1', 65445) disconnected.
+2020-06-08 17:33:23,196 DEBUG: decorators.py: Function arg_parser called from __main__
+2020-06-08 17:33:23,211 DEBUG: decorators.py: Function start_gui called from __main__
+2020-06-08 17:33:36,436 INFO: server.py: Connecting ('127.0.0.1', 65493) started
+2020-06-08 17:33:36,436 DEBUG: server.py: Clients: [<socket.socket fd=1268, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 65493)>]
+2020-06-08 17:33:36,437 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:33:36,437 INFO: server.py: Client ('127.0.0.1', 65493) disconnected.
+2020-06-08 17:34:48,193 INFO: server.py: Connecting ('127.0.0.1', 49154) started
+2020-06-08 17:34:48,193 DEBUG: server.py: Clients: [<socket.socket fd=448, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49154)>]
+2020-06-08 17:34:48,193 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:34:48,193 INFO: server.py: Client ('127.0.0.1', 49154) disconnected.
+2020-06-08 17:34:54,623 INFO: server.py: Connecting ('127.0.0.1', 49163) started
+2020-06-08 17:34:54,623 DEBUG: server.py: Clients: [<socket.socket fd=864, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49163)>]
+2020-06-08 17:34:55,124 DEBUG: server.py: Clients: [<socket.socket fd=864, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49163)>]
+2020-06-08 17:34:55,124 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:34:55,125 INFO: server.py: Client ('127.0.0.1', 49163) disconnected.
+2020-06-08 17:35:30,122 INFO: server.py: Connecting ('127.0.0.1', 49187) started
+2020-06-08 17:35:30,123 DEBUG: server.py: Clients: [<socket.socket fd=1248, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49187)>]
+2020-06-08 17:35:30,623 DEBUG: server.py: Clients: [<socket.socket fd=1248, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49187)>]
+2020-06-08 17:35:30,623 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:35:30,623 INFO: server.py: Client ('127.0.0.1', 49187) disconnected.
+2020-06-08 17:35:33,560 INFO: server.py: Connecting ('127.0.0.1', 49191) started
+2020-06-08 17:35:33,560 DEBUG: server.py: Clients: [<socket.socket fd=448, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49191)>]
+2020-06-08 17:35:34,061 DEBUG: server.py: Clients: [<socket.socket fd=448, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49191)>]
+2020-06-08 17:35:34,061 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:35:34,062 INFO: server.py: Client ('127.0.0.1', 49191) disconnected.
+2020-06-08 17:36:14,273 INFO: server.py: Connecting ('127.0.0.1', 49216) started
+2020-06-08 17:36:14,273 DEBUG: server.py: Clients: [<socket.socket fd=864, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49216)>]
+2020-06-08 17:36:14,775 DEBUG: server.py: Clients: [<socket.socket fd=864, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49216)>]
+2020-06-08 17:36:14,775 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:36:14,776 INFO: server.py: Client ('127.0.0.1', 49216) disconnected.
+2020-06-08 17:36:16,841 INFO: server.py: Connecting ('127.0.0.1', 49219) started
+2020-06-08 17:36:16,841 DEBUG: server.py: Clients: [<socket.socket fd=448, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49219)>]
+2020-06-08 17:36:17,341 DEBUG: server.py: Clients: [<socket.socket fd=448, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49219)>]
+2020-06-08 17:36:17,342 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:36:17,342 INFO: server.py: Client ('127.0.0.1', 49219) disconnected.
+2020-06-08 17:38:17,048 INFO: server.py: Connecting ('127.0.0.1', 49334) started
+2020-06-08 17:38:17,048 DEBUG: server.py: Clients: [<socket.socket fd=964, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49334)>]
+2020-06-08 17:38:17,048 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:38:17,048 INFO: server.py: Client ('127.0.0.1', 49334) disconnected.
+2020-06-08 17:38:23,953 INFO: server.py: Connecting ('127.0.0.1', 49341) started
+2020-06-08 17:38:23,953 DEBUG: server.py: Clients: [<socket.socket fd=1272, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49341)>]
+2020-06-08 17:38:24,453 DEBUG: server.py: Clients: [<socket.socket fd=1272, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49341)>]
+2020-06-08 17:38:24,453 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:38:24,454 INFO: server.py: Client ('127.0.0.1', 49341) disconnected.
+2020-06-08 17:38:33,764 INFO: server.py: Connecting ('127.0.0.1', 49350) started
+2020-06-08 17:38:33,764 DEBUG: server.py: Clients: [<socket.socket fd=964, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49350)>]
+2020-06-08 17:38:34,264 DEBUG: server.py: Clients: [<socket.socket fd=964, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49350)>]
+2020-06-08 17:38:34,264 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:38:34,264 INFO: server.py: Client ('127.0.0.1', 49350) disconnected.
+2020-06-08 17:38:36,191 INFO: server.py: Connecting ('127.0.0.1', 49356) started
+2020-06-08 17:38:36,191 DEBUG: server.py: Clients: [<socket.socket fd=1276, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49356)>]
+2020-06-08 17:38:36,691 DEBUG: server.py: Clients: [<socket.socket fd=1276, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49356)>]
+2020-06-08 17:38:36,691 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:38:36,692 INFO: server.py: Client ('127.0.0.1', 49356) disconnected.
+2020-06-08 17:39:09,225 INFO: server.py: Connecting ('127.0.0.1', 49385) started
+2020-06-08 17:39:09,225 DEBUG: server.py: Clients: [<socket.socket fd=1252, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49385)>]
+2020-06-08 17:39:09,225 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:39:09,225 INFO: server.py: Client ('127.0.0.1', 49385) disconnected.
+2020-06-08 17:39:14,496 INFO: server.py: Connecting ('127.0.0.1', 49394) started
+2020-06-08 17:39:14,496 DEBUG: server.py: Clients: [<socket.socket fd=964, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49394)>]
+2020-06-08 17:39:14,997 DEBUG: server.py: Clients: [<socket.socket fd=964, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49394)>]
+2020-06-08 17:39:14,997 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:39:14,997 INFO: server.py: Client ('127.0.0.1', 49394) disconnected.
+2020-06-08 17:40:55,369 INFO: server.py: Connecting ('127.0.0.1', 49455) started
+2020-06-08 17:40:55,369 DEBUG: server.py: Clients: [<socket.socket fd=832, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49455)>]
+2020-06-08 17:40:55,369 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:40:55,369 INFO: server.py: Client ('127.0.0.1', 49455) disconnected.
+2020-06-08 17:42:21,086 INFO: server.py: Connecting ('127.0.0.1', 49530) started
+2020-06-08 17:42:21,086 DEBUG: server.py: Clients: [<socket.socket fd=964, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49530)>]
+2020-06-08 17:42:21,086 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:42:21,086 INFO: server.py: Client ('127.0.0.1', 49530) disconnected.
+2020-06-08 17:42:28,366 INFO: server.py: Connecting ('127.0.0.1', 49536) started
+2020-06-08 17:42:28,366 DEBUG: server.py: Clients: [<socket.socket fd=888, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49536)>]
+2020-06-08 17:42:28,868 DEBUG: server.py: Clients: [<socket.socket fd=888, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49536)>]
+2020-06-08 17:42:28,868 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:42:28,868 INFO: server.py: Client ('127.0.0.1', 49536) disconnected.
+2020-06-08 17:42:32,401 INFO: server.py: Connecting ('127.0.0.1', 49540) started
+2020-06-08 17:42:32,401 DEBUG: server.py: Clients: [<socket.socket fd=1280, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49540)>]
+2020-06-08 17:42:32,902 DEBUG: server.py: Clients: [<socket.socket fd=1280, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49540)>]
+2020-06-08 17:42:32,902 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:42:32,903 INFO: server.py: Client ('127.0.0.1', 49540) disconnected.
+2020-06-08 17:42:50,539 INFO: server.py: Connecting ('127.0.0.1', 49554) started
+2020-06-08 17:42:50,539 DEBUG: server.py: Clients: [<socket.socket fd=1272, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49554)>]
+2020-06-08 17:42:51,040 DEBUG: server.py: Clients: [<socket.socket fd=1272, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49554)>]
+2020-06-08 17:42:51,040 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:42:51,040 INFO: server.py: Client ('127.0.0.1', 49554) disconnected.
+2020-06-08 17:42:54,655 INFO: server.py: Connecting ('127.0.0.1', 49567) started
+2020-06-08 17:42:54,656 DEBUG: server.py: Clients: [<socket.socket fd=832, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49567)>]
+2020-06-08 17:42:55,156 DEBUG: server.py: Clients: [<socket.socket fd=832, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49567)>]
+2020-06-08 17:42:55,156 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:42:55,157 INFO: server.py: Client ('127.0.0.1', 49567) disconnected.
+2020-06-08 17:43:06,401 INFO: server.py: Connecting ('127.0.0.1', 49584) started
+2020-06-08 17:43:06,401 DEBUG: server.py: Clients: [<socket.socket fd=448, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49584)>]
+2020-06-08 17:43:06,402 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:43:06,402 INFO: server.py: Client ('127.0.0.1', 49584) disconnected.
+2020-06-08 17:43:13,534 INFO: server.py: Connecting ('127.0.0.1', 49593) started
+2020-06-08 17:43:13,534 DEBUG: server.py: Clients: [<socket.socket fd=1272, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49593)>]
+2020-06-08 17:43:14,034 DEBUG: server.py: Clients: [<socket.socket fd=1272, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 49593)>]
+2020-06-08 17:43:14,034 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 17:43:14,035 INFO: server.py: Client ('127.0.0.1', 49593) disconnected.
+2020-06-08 19:40:32,854 INFO: server.py: Connecting ('127.0.0.1', 53546) started
+2020-06-08 19:40:32,854 DEBUG: server.py: Clients: [<socket.socket fd=832, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 53546)>]
+2020-06-08 19:40:32,855 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 19:40:32,855 INFO: server.py: Client ('127.0.0.1', 53546) disconnected.
+2020-06-08 19:42:38,079 INFO: server.py: Connecting ('127.0.0.1', 53613) started
+2020-06-08 19:42:38,079 DEBUG: server.py: Clients: [<socket.socket fd=448, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 53613)>]
+2020-06-08 19:42:38,079 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 19:42:38,079 INFO: server.py: Client ('127.0.0.1', 53613) disconnected.
+2020-06-08 19:42:47,712 INFO: server.py: Connecting ('127.0.0.1', 53622) started
+2020-06-08 19:42:47,712 DEBUG: server.py: Clients: [<socket.socket fd=832, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 53622)>]
+2020-06-08 19:42:48,212 DEBUG: server.py: Clients: [<socket.socket fd=832, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 53622)>]
+2020-06-08 19:42:48,212 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 19:42:48,212 INFO: server.py: Client ('127.0.0.1', 53622) disconnected.
+2020-06-08 19:43:12,977 INFO: server.py: Connecting ('127.0.0.1', 53650) started
+2020-06-08 19:43:12,978 DEBUG: server.py: Clients: [<socket.socket fd=1272, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 53650)>]
+2020-06-08 19:43:12,978 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 19:43:12,978 INFO: server.py: Client ('127.0.0.1', 53650) disconnected.
+2020-06-08 19:43:20,953 INFO: server.py: Connecting ('127.0.0.1', 53657) started
+2020-06-08 19:43:20,954 DEBUG: server.py: Clients: [<socket.socket fd=896, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 53657)>]
+2020-06-08 19:43:21,454 DEBUG: server.py: Clients: [<socket.socket fd=896, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 53657)>]
+2020-06-08 19:43:21,454 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 19:43:21,455 INFO: server.py: Client ('127.0.0.1', 53657) disconnected.
+2020-06-08 19:44:33,995 INFO: server.py: Connecting ('127.0.0.1', 53697) started
+2020-06-08 19:44:33,995 DEBUG: server.py: Clients: [<socket.socket fd=1268, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 53697)>]
+2020-06-08 19:44:34,496 DEBUG: server.py: Clients: [<socket.socket fd=1268, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 53697)>]
+2020-06-08 19:44:34,496 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 19:44:34,496 INFO: server.py: Client ('127.0.0.1', 53697) disconnected.
+2020-06-08 19:44:46,746 INFO: server.py: Connecting ('127.0.0.1', 53706) started
+2020-06-08 19:44:46,746 DEBUG: server.py: Clients: [<socket.socket fd=832, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 53706)>]
+2020-06-08 19:44:47,247 DEBUG: server.py: Clients: [<socket.socket fd=832, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 53706)>]
+2020-06-08 19:44:47,247 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 19:44:47,247 INFO: server.py: Client ('127.0.0.1', 53706) disconnected.
+2020-06-08 19:45:13,441 INFO: server.py: Connecting ('127.0.0.1', 53768) started
+2020-06-08 19:45:13,441 DEBUG: server.py: Clients: [<socket.socket fd=1020, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 53768)>]
+2020-06-08 19:45:13,942 DEBUG: server.py: Clients: [<socket.socket fd=1020, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 53768)>]
+2020-06-08 19:45:13,942 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 19:45:13,942 INFO: server.py: Client ('127.0.0.1', 53768) disconnected.
+2020-06-08 19:45:27,536 INFO: server.py: Connecting ('127.0.0.1', 53862) started
+2020-06-08 19:45:27,537 DEBUG: server.py: Clients: [<socket.socket fd=992, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 53862)>]
+2020-06-08 19:45:28,038 DEBUG: server.py: Clients: [<socket.socket fd=992, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 53862)>]
+2020-06-08 19:45:28,039 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 19:45:28,039 INFO: server.py: Client ('127.0.0.1', 53862) disconnected.
+2020-06-08 19:45:55,532 INFO: server.py: Connecting ('127.0.0.1', 53936) started
+2020-06-08 19:45:55,532 DEBUG: server.py: Clients: [<socket.socket fd=1016, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 53936)>]
+2020-06-08 19:45:56,033 DEBUG: server.py: Clients: [<socket.socket fd=1016, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 53936)>]
+2020-06-08 19:45:56,033 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 19:45:56,033 INFO: server.py: Client ('127.0.0.1', 53936) disconnected.
+2020-06-08 19:45:59,584 INFO: server.py: Connecting ('127.0.0.1', 53945) started
+2020-06-08 19:45:59,584 DEBUG: server.py: Clients: [<socket.socket fd=1020, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 53945)>]
+2020-06-08 19:46:00,084 DEBUG: server.py: Clients: [<socket.socket fd=1020, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 53945)>]
+2020-06-08 19:46:00,084 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 19:46:00,084 INFO: server.py: Client ('127.0.0.1', 53945) disconnected.
+2020-06-08 19:46:25,315 INFO: server.py: Connecting ('127.0.0.1', 53960) started
+2020-06-08 19:46:25,316 DEBUG: server.py: Clients: [<socket.socket fd=992, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 53960)>]
+2020-06-08 19:46:25,816 DEBUG: server.py: Clients: [<socket.socket fd=992, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 53960)>]
+2020-06-08 19:46:25,816 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 19:46:25,817 INFO: server.py: Client ('127.0.0.1', 53960) disconnected.
+2020-06-08 19:46:35,091 INFO: server.py: Connecting ('127.0.0.1', 53967) started
+2020-06-08 19:46:35,092 DEBUG: server.py: Clients: [<socket.socket fd=1268, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 53967)>]
+2020-06-08 19:46:35,592 DEBUG: server.py: Clients: [<socket.socket fd=1268, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 53967)>]
+2020-06-08 19:46:35,592 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 19:46:35,593 INFO: server.py: Client ('127.0.0.1', 53967) disconnected.
+2020-06-08 19:47:54,255 INFO: server.py: Connecting ('127.0.0.1', 54016) started
+2020-06-08 19:47:54,255 DEBUG: server.py: Clients: [<socket.socket fd=1016, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 54016)>]
+2020-06-08 19:47:54,255 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 19:47:54,255 INFO: server.py: Client ('127.0.0.1', 54016) disconnected.
+2020-06-08 19:48:01,568 INFO: server.py: Connecting ('127.0.0.1', 54028) started
+2020-06-08 19:48:01,568 DEBUG: server.py: Clients: [<socket.socket fd=1268, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 54028)>]
+2020-06-08 19:48:02,069 DEBUG: server.py: Clients: [<socket.socket fd=1268, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 54028)>]
+2020-06-08 19:48:02,070 DEBUG: decorators.py: Function get_message called from server_config.utils
+2020-06-08 19:48:02,070 INFO: server.py: Client ('127.0.0.1', 54028) disconnected.

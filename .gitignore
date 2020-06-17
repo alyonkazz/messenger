@@ -15,3 +15,4 @@
 /messenger_server/server_logs/client.log
 /messenger_client/clientapp/**.db3
 /tmp/
+/messenger_kivy_client/test**

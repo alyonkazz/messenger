@@ -1,5 +1,6 @@
 from kivy.app import App
 from kivy.lang import Builder
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.recycleview import RecycleView
 from kivy.uix.recycleview.views import RecycleDataViewBehavior
 from kivy.uix.label import Label
@@ -9,8 +10,10 @@ from kivy.uix.behaviors import FocusBehavior
 from kivy.uix.recycleview.layout import LayoutSelectionBehavior
 
 
-Builder.load_string('''
+# Builder.load_string('''
+kv = ('''
 <SelectableLabel>:
+    id: my_select
     # Draw a background to indicate selection
     canvas.before:
         Color:
@@ -28,6 +31,18 @@ Builder.load_string('''
         orientation: 'vertical'
         multiselect: True
         touch_multiselect: False
+        
+BoxLayout:
+    orientation: 'vertical'
+    RVClientContacts:
+    
+    Button:
+        id: btn_client_id
+        text: 'UwU'
+    
+    Label:
+        id: cl_n
+        text: '9'
         
 ''')
 
@@ -63,7 +78,6 @@ class SelectableLabel(RecycleDataViewBehavior, Label):
         if is_selected:
             print("selection changed to {0}".format(rv.data[index]))
             print(self.text)
-
         else:
             print("selection removed for {0}".format(rv.data[index]))
 
@@ -72,17 +86,20 @@ class SelectableLabel(RecycleDataViewBehavior, Label):
 
 
 class RVClientContacts(RecycleView):
-    def __init__(self, client_list, **kwargs):
+    def __init__(self, **kwargs):
         super(RVClientContacts, self).__init__(**kwargs)
+        client_list = ['cl1', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3',
+                       'cl1', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3']
         self.data = [{'text': str(x)} for x in client_list]
 
 
-class TestApp(App):
+class TestApp1(App):
     def build(self):
         client_list = ['cl1', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3',
                        'cl1', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3']
-        return RVClientContacts(client_list)
+        # return RVClientContacts(client_list)
+        return Builder.load_string(kv)
 
 
 if __name__ == '__main__':
-    TestApp().run()
+    TestApp1().run()

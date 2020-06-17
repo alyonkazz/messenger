@@ -26,20 +26,12 @@ pip3 install -r requirements.txt
 
 
 
-_________________ Lesson5-6 _________________
+_________________ Kv language _________________
 
-*Для упрощения проверки домашки реализована работа с базой без авторизации.
-При необходимости хост и порт можно изменить в kivy_mongo/mongo.py
-
-Реализовано автоматическое наполнение базы данных из папки kivy_mongo/static (только при старте приложения).
-
-
-### Для проверки ДЗ: ###
-
-python3 kivy_mongo/kivy_start.py
-
-Можно полистать изображения (подгружаются из базы, а не из папки),
-кнопки блокируются в конце и начале списка соответственно.
+There are three keywords specific to the Kv language:
+    app: always refers to the instance of your application.
+    root: refers to the base widget/template in the current rule
+    self: always refer to the current widget
 
 
 ______________________________________
