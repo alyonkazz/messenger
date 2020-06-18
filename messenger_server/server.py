@@ -8,7 +8,6 @@ from socket import AF_INET, SOCK_STREAM, socket
 from PyQt5.QtWidgets import QApplication
 
 import server_logs.server_log_config as log
-from client_config.settings import MESSAGE_HISTORY
 from server_config.utils import send_message, get_message
 from serverapp.errors import ServerError
 from server_database.database_server import ServerDB
@@ -18,7 +17,7 @@ from serverapp.metaclss_server import ServerVerifier
 from server_config.settings import MAX_CONNECTION, TIMEOUT, \
     MESSAGE, ACTION, PRESENCE, TIME, USER, MESSAGE_TEXT, ACCOUNT_NAME, RESPONSE, ERROR, SENDER, DESTINATION, EXIT, \
     GET_USERS_PACKAGE, ALL_USERS, ADD_CONTACT, REMOVE_CONTACT, SERVER, CONTACTS, GET_ALL_USERS, PASSWORD, REGISTRATION, \
-    DEFAULT_HOST, DEFAULT_PORT, MESSAGE_ID, MESSAGE_DATETIME
+    DEFAULT_HOST, DEFAULT_PORT, MESSAGE_ID, MESSAGE_DATETIME, MESSAGE_HISTORY
 from serverapp.server_gui import UsersStatistic
 
 
