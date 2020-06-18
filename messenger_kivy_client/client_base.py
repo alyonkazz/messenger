@@ -1,7 +1,9 @@
 import json
 import time
 
-from common_variables import ENCODING, MAX_PACKAGE_LENGTH
+from common_variables import *
+
+
 # from clientapp.decorators import func_to_log
 
 
@@ -25,6 +27,7 @@ def send_message(sock, msg):
     enc_msg = js_msg.encode(ENCODING)
     sock.send(enc_msg)
     # time.sleep(0.2)
+
 
 def message_from_server(self):
     """ Обработка сообщений от сервера и пользователей """
@@ -63,3 +66,23 @@ def message_from_server(self):
                 log.error(f'Invalid message received from server: {message}')
         except KeyError:
             log.error(KeyError)
+
+def presence_request(sock, client_name, password, request):
+    """ сформировать presence-сообщение, отправить его и получить ответ от сервера """
+    presence = {
+        ACTION: request,
+        TIME: time.time(),
+        USER: {
+            SENDER: client_name,
+            PASSWORD: password
+        }
+    }
+    log.debug(f'{client_name}: Presence message created')
+
+    send_message(sock, presence)
+    log.debug(f'{client_name}: Presence message send')
+
+    ans = get_message(sock)
+    log.debug(f'For presence get answer: {ans}')
+
+    return ans

@@ -16,3 +16,4 @@
 /messenger_client/clientapp/**.db3
 /tmp/
 /messenger_kivy_client/test**
+/messenger_kivy_client/client_database/**.db3

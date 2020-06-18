@@ -11,31 +11,93 @@ from kivy.uix.label import Label
 from kivy.uix.recycleview import RecycleView
 from kivy.uix.recycleview.views import RecycleDataViewBehavior
 
+from chat_window_msgs import ChatWithContact
+from screen_registration import ScreenRegistration
+from screen_settings import ScreenSetting
+
 kv = """
+<SettingsImageButton>:
+    source: 'static/settings.png'
+    size: (50, 50)
+    size_hint: (None, None)
+    pos_hint: {'center_x': .7, 'center_y': .5}
+    
+<ClientSummaryLayout>:
+    size_hint_y: None
+    height: 100
+    SettingsImageButton:
+        on_press: app.root.ids['manager'].current = 'client_settings'
+    Image:
+        source: 'static/default_avatar.jpg'
+        size_hint: (None, None)
+    Status:
+        text: 'Это статус'
+        pos_hint: {'center_y': 1}
+        padding: (10, 10)
+
 <ClientContactsRowButton>:
+    size_hint_y: None
+    height: dp(40)
+    opacity: 0.3
     on_press: app.root.ids['selected_contact'].text = 'Чат с контактом ' + self.text
     on_press: app.root.ids['manager'].current = 'chat_window'
 
 RootLayout:
     orientation: 'vertical'
-    BoxLayout:
-        size_hint_y: None
-        height: 100
-        SettingsImageButton:
-            on_press: manager.current = 'client_settings'
-        Image:
-            source: 'static/default_avatar.jpg'
-            size_hint: (None, None)
-        Status:
-            text: 'Это статус'
-            pos_hint: {'center_y': 1}
-            padding: (10, 10)
     ScreenManager:
         id: manager
+        Screen:
+            name: 'login'
+            BoxLayout:
+                orientation: 'vertical'
+                Label:
+                    size_hint_y: None
+                    height: dp(40)
+                    text: 'Введите IP-адрес'
+                TextInput:
+                    size_hint_y: None
+                    height: dp(40)
+                    text: '127.0.0.1'
+                    # on_text: app.data = self.text
+                Label:
+                    size_hint_y: None
+                    height: dp(40)
+                    text: 'Введите порт'
+                TextInput:
+                    size_hint_y: None
+                    height: dp(40)
+                    text: '7777'
+                    # on_text: app.data = self.text
+                Label:
+                    size_hint_y: None
+                    height: dp(40)
+                    text: 'Введите имя'
+                TextInput:
+                    size_hint_y: None
+                    height: dp(40)
+                    text: app.data
+                    on_text: app.data = self.text
+                Label:
+                    size_hint_y: None
+                    height: dp(40)
+                    text: 'Введите пароль'
+                TextInput:
+                    size_hint_y: None
+                    height: dp(40)
+                    text: app.data
+                    on_text: app.data = self.text
+                Button:
+                    text: 'Подключиться'
+                    on_press: manager.current = 'client_contacts'
+                Button:
+                    text: 'Зарегистрироваться'
+                    on_press: manager.current = 'registration'
+        ScreenRegistration:
         Screen:
             name: 'client_contacts'
             BoxLayout:
                 orientation: 'vertical'
+                ClientSummaryLayout:
                 TextInput:
                     size_hint_y: None
                     height: dp(40)
@@ -45,10 +107,9 @@ RootLayout:
                     id: rv
         Screen:
             name: 'chat_window'
-            Button:
-                on_press: root.upd()
             BoxLayout:
                 orientation: 'vertical'
+                ClientSummaryLayout:
                 Button:
                     size_hint_y: None
                     height: dp(40)
@@ -59,7 +120,10 @@ RootLayout:
                     id: selected_contact
                     size_hint_y: None
                     height: dp(40)
+                ChatWithContact:
                 TextInput:
+                    size_hint_y: None
+                    height: self.minimum_height
                     text: app.data
                     on_text: app.data = self.text
                 Button:
@@ -68,13 +132,7 @@ RootLayout:
                     text: 'Отправить'
                     # TODO add send
                     on_press:                                    
-        Screen:
-            name: 'client_settings'
-            Label:
-                text: 'Здесь будут настройки'
-            Button:
-                text: '<< в список контактов'
-                on_press: manager.current = 'client_contacts'
+        ScreenSetting:
 """
 
 
@@ -86,13 +144,6 @@ class RootLayout(BoxLayout):
 class SettingsImageButton(ButtonBehavior, Image):
     """ button with image """
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.source = 'static/settings.png'
-        self.size = (50, 50)
-        self.size_hint = (None, None)
-        self.pos_hint = {'center_x': .7, 'center_y': .5}
-
 
 class Status(Label):
     def __init__(self, **kwargs):
@@ -100,11 +151,12 @@ class Status(Label):
         self.bind(size=self.setter('text_size'))
 
 
+class ClientSummaryLayout(BoxLayout):
+    """ client settings, avatar, status """
+
+
 class ClientContactsRowButton(RecycleDataViewBehavior, Button):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.size_hint_y = None
-        self.height = dp(40)
+    """ button for contacts """
 
 
 class ClientContacts(RecycleView):
@@ -135,9 +187,6 @@ class ClientApp(App):
 
     def do_something(self, *args):
         print('do_something got called because 1111 changed')
-
-    def selectionChange(self, inst, val):
-        print('hey! select ', self.rv.data[val[0]]['text'])
 
 
 if __name__ == '__main__':
