@@ -2,18 +2,21 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.metrics import dp
 from kivy.properties import StringProperty
-from kivy.uix.behaviors import ButtonBehavior
+from kivy.uix.behaviors import ButtonBehavior, FocusBehavior
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.image import Image
 from kivy.uix.label import Label
+from kivy.uix.recycleboxlayout import RecycleBoxLayout
 from kivy.uix.recycleview import RecycleView
+from kivy.uix.recycleview.layout import LayoutSelectionBehavior
 from kivy.uix.recycleview.views import RecycleDataViewBehavior
 
 from chat_window_msgs import ChatWithContact
 from screen_registration import ScreenRegistration
 from screen_settings import ScreenSetting
+from client_database.client_database import DBController
 
 kv = """
 <SettingsImageButton>:
@@ -41,6 +44,17 @@ kv = """
     opacity: 0.3
     on_press: app.root.ids['selected_contact'].text = 'Чат с контактом ' + self.text
     on_press: app.root.ids['manager'].current = 'chat_window'
+    
+<ClientContacts>:
+    viewclass: 'ClientContactsRowButton'
+    SelectableRecycleBoxLayout:
+        default_size: None, dp(56)
+        default_size_hint: 1, None
+        size_hint_y: None
+        height: self.minimum_height
+        orientation: 'vertical'
+        multiselect: False
+        touch_multiselect: False   
 
 RootLayout:
     orientation: 'vertical'
@@ -73,10 +87,11 @@ RootLayout:
                     height: dp(40)
                     text: 'Введите имя'
                 TextInput:
+                    id: client_name
                     size_hint_y: None
                     height: dp(40)
-                    text: app.data
-                    on_text: app.data = self.text
+                    text: app.client_name
+                    on_text: app.client_name = self.text
                 Label:
                     size_hint_y: None
                     height: dp(40)
@@ -88,7 +103,9 @@ RootLayout:
                     on_text: app.data = self.text
                 Button:
                     text: 'Подключиться'
+                    on_press: app.connect_to_db()
                     on_press: manager.current = 'client_contacts'
+                    on_release: rv.data = [{'text': str(x)} for x in app.client_list]
                 Button:
                     text: 'Зарегистрироваться'
                     on_press: manager.current = 'registration'
@@ -103,8 +120,11 @@ RootLayout:
                     height: dp(40)
                     text: app.data
                     on_text: app.data = self.text
+                # Button:
+                #     on_press: rv.data = [{'text': str(x)} for x in app.client_list]
                 ClientContacts:
                     id: rv
+                    data: [{'text': str(x)} for x in app.client_list]
         Screen:
             name: 'chat_window'
             BoxLayout:
@@ -141,6 +161,18 @@ class RootLayout(BoxLayout):
         self.ids['rv_btn'].text = '1111'
 
 
+class ConnectButton(Button):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def con(self, client_name):
+        self.database = DBController(client_name)
+        return self.database
+        # test_db.add_contact('test2')
+        # test_db.fill_contacts(['test3', 'test4'])
+        # self.client_list = test_db.get_contacts()
+
+
 class SettingsImageButton(ButtonBehavior, Image):
     """ button with image """
 
@@ -159,26 +191,27 @@ class ClientContactsRowButton(RecycleDataViewBehavior, Button):
     """ button for contacts """
 
 
+class SelectableRecycleBoxLayout(FocusBehavior, LayoutSelectionBehavior,
+                                 RecycleBoxLayout):
+    """ Adds selection and focus behaviour to the view. """
+
+
 class ClientContacts(RecycleView):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
-        self.client_list = ['cl1', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3',
-                            'cl1', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3', 'cl2', 'cl3']
-
-        self.client_contacts_layout = GridLayout(cols=1, size_hint_y=None)
-        self.client_contacts_layout.bind(minimum_height=self.client_contacts_layout.setter('height'),
-                                         )
-        self.add_widget(self.client_contacts_layout)
-
-        for i in self.client_list:
-            self.client_contacts_layout.add_widget(ClientContactsRowButton(text=str(i),
-                                                                           id=str(i),
-                                                                           ))
+    """ RecycleView with client's contacts """
 
 
 class ClientApp(App):
     data = StringProperty('initial text')
+    client_name = StringProperty('client_name')
+    client_list = ''
+
+    def connect_to_db(self):
+        self.test_db = DBController(self.client_name)
+        self.test_db.add_contact('test2')
+        self.test_db.save_message('test1', 'test2', 'in_msg')
+        self.client_list = self.test_db.get_contacts()
+        print(self.test_db.get_contacts())
+        print(self.data)
 
     def build(self):
         self.bind(data=self.do_something)
@@ -187,6 +220,7 @@ class ClientApp(App):
 
     def do_something(self, *args):
         print('do_something got called because 1111 changed')
+        ClientContacts().data = [{'text': 'str(x'}]
 
 
 if __name__ == '__main__':
