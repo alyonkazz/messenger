@@ -44,6 +44,8 @@ kv = """
     opacity: 0.3
     on_press: app.root.ids['selected_contact'].text = 'Чат с контактом ' + self.text
     on_press: app.root.ids['manager'].current = 'chat_window'
+    on_press: app.get_chat_with_contact()
+    on_release: app.root.ids['chat_with_contact'].data = [{'text': str(x)} for x in app.chat_with_contact]
     
 <ClientContacts>:
     viewclass: 'ClientContactsRowButton'
@@ -105,10 +107,10 @@ RootLayout:
                     text: 'Подключиться'
                     on_press: app.connect_to_db()
                     on_press: manager.current = 'client_contacts'
-                    on_release: rv.data = [{'text': str(x)} for x in app.client_list]
+                    on_release: rv.data = [{'text': str(contact)} for contact in app.client_list]
                 Button:
                     text: 'Зарегистрироваться'
-                    on_press: manager.current = 'registration'
+                    # on_press: manager.current = 'registration'
         ScreenRegistration:
         Screen:
             name: 'client_contacts'
@@ -124,7 +126,7 @@ RootLayout:
                 #     on_press: rv.data = [{'text': str(x)} for x in app.client_list]
                 ClientContacts:
                     id: rv
-                    data: [{'text': str(x)} for x in app.client_list]
+                    data: [{'text': str(contact)} for x in app.client_list]
         Screen:
             name: 'chat_window'
             BoxLayout:
@@ -141,6 +143,7 @@ RootLayout:
                     size_hint_y: None
                     height: dp(40)
                 ChatWithContact:
+                    id: chat_with_contact
                 TextInput:
                     size_hint_y: None
                     height: self.minimum_height
@@ -204,14 +207,19 @@ class ClientApp(App):
     data = StringProperty('initial text')
     client_name = StringProperty('client_name')
     client_list = ''
+    chat_with_contact = '111'
 
     def connect_to_db(self):
         self.test_db = DBController(self.client_name)
         self.test_db.add_contact('test2')
         self.test_db.save_message('test1', 'test2', 'in_msg')
         self.client_list = self.test_db.get_contacts()
-        print(self.test_db.get_contacts())
-        print(self.data)
+
+    def get_chat_with_contact(self):
+        # self.chat_with_contact = DBController(self.client_name).get_history(contact)
+        # print(self.test_db.get_contacts())
+        # print(self.data)
+        self.chat_with_contact = 'sdfdsf'
 
     def build(self):
         self.bind(data=self.do_something)
@@ -220,7 +228,6 @@ class ClientApp(App):
 
     def do_something(self, *args):
         print('do_something got called because 1111 changed')
-        ClientContacts().data = [{'text': 'str(x'}]
 
 
 if __name__ == '__main__':

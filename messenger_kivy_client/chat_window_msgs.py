@@ -5,7 +5,7 @@ from kivy.uix.recycleview import RecycleView
 Builder.load_string('''
 <ChatWithContact>:
     viewclass: 'Label'
-    
+    # data: [{'text': str(x)} for x in app.chat_with_contact]
     RecycleBoxLayout:
         canvas:
             Color:
@@ -24,8 +24,8 @@ Builder.load_string('''
 class ChatWithContact(RecycleView):
     def __init__(self, **kwargs):
         super(ChatWithContact, self).__init__(**kwargs)
-        chat_with_contact = ['hi', 'hey', '1', '2', '3']
-        self.data = [{'text': str(x)} for x in chat_with_contact]
+        # chat_with_contact = ['hi', 'hey', '1', '2', '3']
+        # self.data = [{'text': str(x)} for x in chat_with_contact]
 
 
 class TestApp(App):
